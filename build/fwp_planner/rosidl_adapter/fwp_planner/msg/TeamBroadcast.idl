@@ -1,0 +1,31 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from fwp_planner/msg/TeamBroadcast.msg
+// generated code does not contain a copyright notice
+
+#include "fwp_planner/msg/DynamicState.idl"
+#include "std_msgs/msg/Header.idl"
+
+module fwp_planner {
+  module msg {
+    @verbatim (language="comment", text=
+      "==============================================================================" "\n"
+      "描述: 团队内部广播的“心跳”消息，用于队友间共享自身精确状态。" "\n"
+      "     主要用于维持队形、避免碰撞和基本态势感知。" "\n"
+      "==============================================================================")
+    struct TeamBroadcast {
+      std_msgs::msg::Header header;
+
+      int32 sender_id;
+
+      float broadcast_range;
+
+      @verbatim (language="comment", text=
+        "发送者完整的状态信息")
+      fwp_planner::msg::DynamicState dynamic_state;
+
+      @verbatim (language="comment", text=
+        "当前的存活状态")
+      boolean is_alive;
+    };
+  };
+};

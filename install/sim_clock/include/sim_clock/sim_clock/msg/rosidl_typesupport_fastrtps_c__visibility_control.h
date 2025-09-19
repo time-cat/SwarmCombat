@@ -1,0 +1,1 @@
+/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_typesupport_fastrtps_c/sim_clock/msg/rosidl_typesupport_fastrtps_c__visibility_control.h

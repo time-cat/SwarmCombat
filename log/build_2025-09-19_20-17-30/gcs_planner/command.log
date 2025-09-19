@@ -1,0 +1,4 @@
+Invoking command in '/home/tong/Projects/SwarmCombat/build/gcs_planner': /usr/bin/cmake /home/tong/Projects/SwarmCombat/src/autopilot/gcs_planner -DCMAKE_INSTALL_PREFIX=/home/tong/Projects/SwarmCombat/install/gcs_planner
+Invoked command in '/home/tong/Projects/SwarmCombat/build/gcs_planner' returned '0': /usr/bin/cmake /home/tong/Projects/SwarmCombat/src/autopilot/gcs_planner -DCMAKE_INSTALL_PREFIX=/home/tong/Projects/SwarmCombat/install/gcs_planner
+Invoking command in '/home/tong/Projects/SwarmCombat/build/gcs_planner': /usr/bin/cmake --build /home/tong/Projects/SwarmCombat/build/gcs_planner -- -j32 -l32
+Invoked command in '/home/tong/Projects/SwarmCombat/build/gcs_planner' returned '0': /usr/bin/cmake --build /home/tong/Projects/SwarmCombat/build/gcs_planner -- -j32 -l32

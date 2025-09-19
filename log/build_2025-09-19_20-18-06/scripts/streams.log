@@ -1,0 +1,16 @@
+[0.539s] Invoking command in '/home/tong/Projects/SwarmCombat/build/scripts': PYTHONPATH=/home/tong/Projects/SwarmCombat/build/scripts/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/tong/Projects/SwarmCombat/install/scripts/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/tong/Projects/SwarmCombat/build/scripts/build --no-deps symlink_data
+[0.744s] running develop
+[0.853s] running egg_info
+[0.853s] writing scripts.egg-info/PKG-INFO
+[0.853s] writing dependency_links to scripts.egg-info/dependency_links.txt
+[0.853s] writing entry points to scripts.egg-info/entry_points.txt
+[0.853s] writing requirements to scripts.egg-info/requires.txt
+[0.854s] writing top-level names to scripts.egg-info/top_level.txt
+[0.855s] reading manifest file 'scripts.egg-info/SOURCES.txt'
+[0.856s] writing manifest file 'scripts.egg-info/SOURCES.txt'
+[0.857s] running build_ext
+[0.857s] Creating /home/tong/Projects/SwarmCombat/install/scripts/lib/python3.10/site-packages/scripts.egg-link (link to .)
+[0.858s] 
+[0.858s] Installed /home/tong/Projects/SwarmCombat/build/scripts
+[0.858s] running symlink_data
+[0.881s] Invoked command in '/home/tong/Projects/SwarmCombat/build/scripts' returned '0': PYTHONPATH=/home/tong/Projects/SwarmCombat/build/scripts/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/tong/Projects/SwarmCombat/install/scripts/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/tong/Projects/SwarmCombat/build/scripts/build --no-deps symlink_data

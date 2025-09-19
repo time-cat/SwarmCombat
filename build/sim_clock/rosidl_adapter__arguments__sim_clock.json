@@ -1,0 +1,6 @@
+{
+  "package_name": "sim_clock",
+  "non_idl_tuples": [
+    "/home/tong/Projects/SwarmCombat/src/utils/sim_clock:srv/SetRate.srv"
+  ]
+}

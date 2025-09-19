@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "sim_msgs__py",
+		"source" : "/home/tong/Projects/SwarmCombat/build/sim_msgs/sim_msgs__py"
+	}
+}

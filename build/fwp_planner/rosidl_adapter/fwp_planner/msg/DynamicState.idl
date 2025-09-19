@@ -1,0 +1,63 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from fwp_planner/msg/DynamicState.msg
+// generated code does not contain a copyright notice
+
+
+module fwp_planner {
+  module msg {
+    @verbatim (language="comment", text=
+      "该消息用于在 ROS 网络中传输 BHDynamic.h 中定义的 State_Output 结构体的数据。" "\n"
+      "字段名和类型与 C++ 结构体中的成员完全对应。" "\n"
+      "This message represents the data from the State_Output C++ struct defined in BHDynamic.h for use in the ROS network." "\n"
+      "Field names and types correspond directly to the members of the C++ struct.")
+    struct DynamicState {
+      @verbatim (language="comment", text=
+        "北向位置输出，m (North position output, m)")
+      double posi_n;
+
+      @verbatim (language="comment", text=
+        "东向位置输出，m (East position output, m)")
+      double posi_e;
+
+      @verbatim (language="comment", text=
+        "地向位置输出，m (Down position output, m)")
+      double posi_d;
+
+      @verbatim (language="comment", text=
+        "四元数输出，x")
+      double orient_x;
+
+      @verbatim (language="comment", text=
+        "四元数输出，y")
+      double orient_y;
+
+      @verbatim (language="comment", text=
+        "四元数输出，z")
+      double orient_z;
+
+      @verbatim (language="comment", text=
+        "四元数输出，w")
+      double orient_w;
+
+      @verbatim (language="comment", text=
+        "合速度输出，m/s (Total velocity output, m/s)")
+      double vel;
+
+      @verbatim (language="comment", text=
+        "速度倾角, deg (Velocity inclination angle, deg)")
+      double vel_alpha;
+
+      @verbatim (language="comment", text=
+        "速度偏角, deg (Velocity sideslip angle, deg)")
+      double vel_bete;
+
+      @verbatim (language="comment", text=
+        "攻角，输出暂为0 (Angle of attack, temp 0)")
+      double angle_alpha;
+
+      @verbatim (language="comment", text=
+        "侧滑角，输出暂为0 (Sideslip angle, temp 0)")
+      double abgle_bete;
+    };
+  };
+};

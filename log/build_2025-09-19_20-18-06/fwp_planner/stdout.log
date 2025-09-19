@@ -1,0 +1,201 @@
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_generator_c[0m
+[  1%] Built target fwp_planner__cpp
+[ 12%] Built target fwp_planner__rosidl_generator_c
+[ 12%] Built target ament_cmake_python_symlink_fwp_planner
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_fastrtps_c[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_fastrtps_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_introspection_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_c[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_introspection_c[0m
+[ 23%] Built target fwp_planner__rosidl_typesupport_cpp
+[ 33%] Built target fwp_planner__rosidl_typesupport_c
+[ 44%] Built target fwp_planner__rosidl_typesupport_fastrtps_c
+[ 55%] Built target fwp_planner__rosidl_typesupport_introspection_cpp
+[ 72%] Built target fwp_planner__rosidl_typesupport_introspection_c
+[ 76%] Built target fwp_planner__rosidl_typesupport_fastrtps_cpp
+[35m[1mConsolidate compiler generated dependencies of target fw_logic_node[0m
+[ 76%] Built target fwp_planner
+[ 80%] Built target fw_logic_node
+[ 81%] Built target fwp_planner__py
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_generator_py[0m
+[ 90%] Built target fwp_planner__rosidl_generator_py
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_fastrtps_c__pyext[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_introspection_c__pyext[0m
+[35m[1mConsolidate compiler generated dependencies of target fwp_planner__rosidl_typesupport_c__pyext[0m
+[ 93%] Built target fwp_planner__rosidl_typesupport_fastrtps_c__pyext
+[ 96%] Built target fwp_planner__rosidl_typesupport_c__pyext
+[100%] Built target fwp_planner__rosidl_typesupport_introspection_c__pyext
+running egg_info
+writing fwp_planner.egg-info/PKG-INFO
+writing dependency_links to fwp_planner.egg-info/dependency_links.txt
+writing top-level names to fwp_planner.egg-info/top_level.txt
+reading manifest file 'fwp_planner.egg-info/SOURCES.txt'
+writing manifest file 'fwp_planner.egg-info/SOURCES.txt'
+[100%] Built target ament_cmake_python_build_fwp_planner_egg
+-- Install configuration: ""
+-- Execute custom install script
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/ament_index/resource_index/rosidl_interfaces/fwp_planner
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__functions.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__struct.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__type_support.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__functions.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__struct.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__type_support.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__functions.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__struct.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__type_support.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__functions.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__struct.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__type_support.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__functions.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__struct.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__type_support.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/dynamic_state.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/fused_enemy.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/fused_teammate.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/rosidl_generator_c__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/team_broadcast.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/team_multicast.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/library_path.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/library_path.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__builder.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__struct.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__traits.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__type_support.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__builder.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__struct.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__traits.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__type_support.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__builder.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__struct.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__traits.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__type_support.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__builder.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__struct.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__traits.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__type_support.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__builder.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__struct.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__traits.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__type_support.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/dynamic_state.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/fused_enemy.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/fused_teammate.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/rosidl_generator_cpp__visibility_control.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/team_broadcast.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/team_multicast.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/dynamic_state__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_enemy__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/fused_teammate__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_broadcast__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fwp_planner/fwp_planner/msg/detail/team_multicast__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/pythonpath.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/pythonpath.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner-0.1.0-py3.10.egg-info/PKG-INFO
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner-0.1.0-py3.10.egg-info/SOURCES.txt
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner-0.1.0-py3.10.egg-info/dependency_links.txt
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner-0.1.0-py3.10.egg-info/top_level.txt
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/__init__.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/_fwp_planner_s.ep.rosidl_typesupport_c.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/_fwp_planner_s.ep.rosidl_typesupport_fastrtps_c.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/_fwp_planner_s.ep.rosidl_typesupport_introspection_c.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/fwp_planner_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/fwp_planner_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/fwp_planner_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/libfwp_planner__rosidl_generator_py.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/__init__.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_dynamic_state.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_dynamic_state_s.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_fused_enemy.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_fused_enemy_s.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_fused_teammate.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_fused_teammate_s.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_team_broadcast.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_team_broadcast_s.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_team_multicast.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg/_team_multicast_s.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/fwp_planner_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/fwp_planner_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/fwp_planner_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/DynamicState.idl
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/FusedEnemy.idl
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/FusedTeammate.idl
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/TeamBroadcast.idl
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/TeamMulticast.idl
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/DynamicState.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/FusedEnemy.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/FusedTeammate.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/TeamBroadcast.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/msg/TeamMulticast.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/fwp_planner/fw_logic_node
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fw_plane_sim/fw_plane_visualizer.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fw_plane_sim/fw_sim/fw_driver_sim.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/include/fw_plane_sim/fw_sim/fw_sim_node.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/ament_index/resource_index/package_run_dependencies/fwp_planner
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/ament_index/resource_index/parent_prefix_path/fwp_planner
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/path.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/environment/path.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/local_setup.bash
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/local_setup.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/local_setup.zsh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/local_setup.dsv
+-- Symlinking: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/package.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/ament_index/resource_index/packages/fwp_planner
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/rosidl_cmake-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_plannerConfig.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_plannerConfig-version.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/package.xml
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_generator_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_typesupport_fastrtps_cpp.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_typesupport_introspection_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_typesupport_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_typesupport_introspection_cpp.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_typesupport_cpp.so
+Listing '/home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner'...
+Listing '/home/tong/Projects/SwarmCombat/install/fwp_planner/local/lib/python3.10/dist-packages/fwp_planner/msg'...
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/lib/libfwp_planner__rosidl_generator_py.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_generator_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_generator_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_typesupport_fastrtps_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_generator_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_typesupport_fastrtps_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_introspection_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_introspection_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_introspection_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/fwp_planner__rosidl_typesupport_cppExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_generator_pyExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/fwp_planner/share/fwp_planner/cmake/export_fwp_planner__rosidl_generator_pyExport-noconfig.cmake

@@ -1,0 +1,28 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from fwp_planner/msg/FusedTeammate.msg
+// generated code does not contain a copyright notice
+
+#include "builtin_interfaces/msg/Time.idl"
+
+module fwp_planner {
+  module msg {
+    @verbatim (language="comment", text=
+      "==============================================================================" "\n"
+      "描述: TeamMulticast消息中，“队友信息表格”的一行。" "\n"
+      "     代表关于单个队友的融合情报。" "\n"
+      "==============================================================================")
+    struct FusedTeammate {
+      @verbatim (language="comment", text=
+        "队友ID")
+      int32 id;
+
+      @verbatim (language="comment", text=
+        "已知该队友正在攻击的目标ID (-1表示无目标)")
+      int32 target_id;
+
+      @verbatim (language="comment", text=
+        "该情报的时间戳")
+      builtin_interfaces::msg::Time timestamp;
+    };
+  };
+};

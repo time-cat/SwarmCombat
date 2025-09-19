@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "sim_clock__py",
+		"source" : "/home/tong/Projects/SwarmCombat/build/sim_clock/sim_clock__py"
+	}
+}

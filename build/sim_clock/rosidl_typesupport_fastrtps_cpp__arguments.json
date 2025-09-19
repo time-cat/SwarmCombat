@@ -1,0 +1,19 @@
+{
+  "package_name": "sim_clock",
+  "output_dir": "/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_typesupport_fastrtps_cpp/sim_clock",
+  "template_dir": "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource",
+  "idl_tuples": [
+    "/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_adapter/sim_clock:srv/SetRate.idl"
+  ],
+  "target_dependencies": [
+    "/opt/ros/humble/lib/rosidl_typesupport_fastrtps_cpp/rosidl_typesupport_fastrtps_cpp",
+    "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_typesupport_fastrtps_cpp/__init__.py",
+    "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/idl__rosidl_typesupport_fastrtps_cpp.hpp.em",
+    "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/idl__type_support.cpp.em",
+    "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/msg__rosidl_typesupport_fastrtps_cpp.hpp.em",
+    "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/msg__type_support.cpp.em",
+    "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/srv__rosidl_typesupport_fastrtps_cpp.hpp.em",
+    "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/srv__type_support.cpp.em",
+    "/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_adapter/sim_clock/srv/SetRate.idl"
+  ]
+}

@@ -1,0 +1,28 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from sim_msgs/msg/FwControl.msg
+// generated code does not contain a copyright notice
+
+
+module sim_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "固定翼飞机高层控制指令")
+    struct FwControl {
+      @verbatim (language="comment", text=
+        "期望的滚转角 (rad)")
+      double desired_roll;
+
+      @verbatim (language="comment", text=
+        "期望的俯仰角 (rad)")
+      double desired_pitch;
+
+      @verbatim (language="comment", text=
+        "期望的偏航角速度 (rad/s)")
+      double desired_yaw_rate;
+
+      @verbatim (language="comment", text=
+        "期望的空速 (m/s)")
+      double desired_airspeed;
+    };
+  };
+};

@@ -1,0 +1,41 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from fwp_planner/msg/TeamMulticast.msg
+// generated code does not contain a copyright notice
+
+#include "fwp_planner/msg/DynamicState.idl"
+#include "fwp_planner/msg/FusedEnemy.idl"
+#include "fwp_planner/msg/FusedTeammate.idl"
+#include "std_msgs/msg/Header.idl"
+
+module fwp_planner {
+  module msg {
+    @verbatim (language="comment", text=
+      "==============================================================================" "\n"
+      "描述: 团队内部组播的战术情报消息。" "\n"
+      "     由一个实体（无人机或地面站）发出，包含其所知的最全战场态势图。" "\n"
+      "==============================================================================")
+    struct TeamMulticast {
+      std_msgs::msg::Header header;
+
+      int32 sender_id;
+
+      float multicast_range;
+
+      @verbatim (language="comment", text=
+        "已知队友信息表格")
+      sequence<fwp_planner::msg::FusedTeammate> known_teammates;
+
+      @verbatim (language="comment", text=
+        "已知敌方信息表格")
+      sequence<fwp_planner::msg::FusedEnemy> known_enemies;
+
+      @verbatim (language="comment", text=
+        "发送者完整的状态信息")
+      fwp_planner::msg::DynamicState dynamic_state;
+
+      @verbatim (language="comment", text=
+        "当前的存活状态")
+      boolean is_alive;
+    };
+  };
+};

@@ -1,0 +1,1 @@
+/home/tong/Projects/SwarmCombat/build/sim_msgs/rosidl_typesupport_fastrtps_c/sim_msgs/msg/detail/death_notice__rosidl_typesupport_fastrtps_c.h

@@ -1,0 +1,34 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from sim_msgs/msg/PerceivedState.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/Point.idl"
+#include "std_msgs/msg/Header.idl"
+
+module sim_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "==============================================================================" "\n"
+      "描述: 模拟传感器对一个实体的感知结果。" "\n"
+      "     当一个实体（如蓝方无人机）进入另一实体（如红方无人机）的探测范围时，" "\n"
+      "     红方无人机就在内部生成此消息，代表“我看到了一个目标”。" "\n"
+      "     这个消息本身不跨队发送，而是由接收方的探测逻辑在内部创建。" "\n"
+      "==============================================================================")
+    struct PerceivedState {
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "被感知到的实体的基本信息" "\n"
+        "被感知到的实体的唯一ID")
+      int32 id;
+
+      @verbatim (language="comment", text=
+        "被感知到的实体的位置坐标 (x, y, z)")
+      geometry_msgs::msg::Point position;
+
+      @verbatim (language="comment", text=
+        "感知到的存活状态")
+      boolean is_alive;
+    };
+  };
+};

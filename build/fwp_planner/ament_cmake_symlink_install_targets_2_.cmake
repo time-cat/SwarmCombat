@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/tong/Projects/SwarmCombat/build/fwp_planner/rosidl_generator_py/fwp_planner/fwp_planner_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" "TARGETS" "fwp_planner__rosidl_typesupport_c__pyext" "DESTINATION" "local/lib/python3.10/dist-packages/fwp_planner")

@@ -1,0 +1,133 @@
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_generator_c[0m
+[  3%] Built target sim_clock__cpp
+[ 12%] Built target sim_clock__rosidl_generator_c
+[ 12%] Built target ament_cmake_python_symlink_sim_clock
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_fastrtps_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_introspection_cpp[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_fastrtps_c[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_introspection_c[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_c[0m
+[ 21%] Built target sim_clock__rosidl_typesupport_fastrtps_cpp
+[ 30%] Built target sim_clock__rosidl_typesupport_introspection_cpp
+[ 39%] Built target sim_clock__rosidl_typesupport_cpp
+[ 48%] Built target sim_clock__rosidl_typesupport_fastrtps_c
+[ 57%] Built target sim_clock__rosidl_typesupport_c
+[ 66%] Built target sim_clock__rosidl_typesupport_introspection_c
+[ 66%] Built target sim_clock
+[35m[1mConsolidate compiler generated dependencies of target sim_clock_node[0m
+[ 69%] Built target sim_clock__py
+[ 75%] Built target sim_clock_node
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_generator_py[0m
+[ 81%] Built target sim_clock__rosidl_generator_py
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_introspection_c__pyext[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_c__pyext[0m
+[35m[1mConsolidate compiler generated dependencies of target sim_clock__rosidl_typesupport_fastrtps_c__pyext[0m
+[ 87%] Built target sim_clock__rosidl_typesupport_fastrtps_c__pyext
+[ 93%] Built target sim_clock__rosidl_typesupport_c__pyext
+[100%] Built target sim_clock__rosidl_typesupport_introspection_c__pyext
+running egg_info
+writing sim_clock.egg-info/PKG-INFO
+writing dependency_links to sim_clock.egg-info/dependency_links.txt
+writing top-level names to sim_clock.egg-info/top_level.txt
+reading manifest file 'sim_clock.egg-info/SOURCES.txt'
+writing manifest file 'sim_clock.egg-info/SOURCES.txt'
+[100%] Built target ament_cmake_python_build_sim_clock_egg
+-- Install configuration: ""
+-- Execute custom install script
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/ament_index/resource_index/rosidl_interfaces/sim_clock
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/msg/rosidl_generator_c__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__functions.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__struct.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__type_support.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/set_rate.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/library_path.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/library_path.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__rosidl_typesupport_fastrtps_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/msg/rosidl_generator_cpp__visibility_control.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__builder.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__struct.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__traits.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__type_support.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/set_rate.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__rosidl_typesupport_fastrtps_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__rosidl_typesupport_introspection_c.h
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/include/sim_clock/sim_clock/srv/detail/set_rate__rosidl_typesupport_introspection_cpp.hpp
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/pythonpath.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/pythonpath.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock-0.1.0-py3.10.egg-info/PKG-INFO
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock-0.1.0-py3.10.egg-info/SOURCES.txt
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock-0.1.0-py3.10.egg-info/dependency_links.txt
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock-0.1.0-py3.10.egg-info/top_level.txt
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/__init__.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/_sim_clock_s.ep.rosidl_typesupport_c.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/_sim_clock_s.ep.rosidl_typesupport_fastrtps_c.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/_sim_clock_s.ep.rosidl_typesupport_introspection_c.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/libsim_clock__rosidl_generator_py.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/sim_clock_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/sim_clock_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/sim_clock_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/srv/__init__.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/srv/_set_rate.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/srv/_set_rate_s.c
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/sim_clock_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/sim_clock_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/sim_clock_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/srv/SetRate.idl
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/srv/SetRate.srv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/srv/SetRate_Request.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/srv/SetRate_Response.msg
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/sim_clock/sim_clock_node
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock//launch/start_sim_clock.launch.py
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/ament_index/resource_index/package_run_dependencies/sim_clock
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/ament_index/resource_index/parent_prefix_path/sim_clock
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/path.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/environment/path.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/local_setup.bash
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/local_setup.sh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/local_setup.zsh
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/local_setup.dsv
+-- Symlinking: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/package.dsv
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/ament_index/resource_index/packages/sim_clock
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/rosidl_cmake-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clockConfig.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clockConfig-version.cmake
+-- Up-to-date symlink: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/package.xml
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_generator_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_typesupport_fastrtps_cpp.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_typesupport_introspection_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_typesupport_c.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_typesupport_introspection_cpp.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_typesupport_cpp.so
+Listing '/home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock'...
+Listing '/home/tong/Projects/SwarmCombat/install/sim_clock/local/lib/python3.10/dist-packages/sim_clock/srv'...
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/lib/libsim_clock__rosidl_generator_py.so
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_generator_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_generator_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_typesupport_fastrtps_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_generator_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_typesupport_fastrtps_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_introspection_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_introspection_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_cExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_cExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_introspection_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_cppExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/sim_clock__rosidl_typesupport_cppExport-noconfig.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_generator_pyExport.cmake
+-- Up-to-date: /home/tong/Projects/SwarmCombat/install/sim_clock/share/sim_clock/cmake/export_sim_clock__rosidl_generator_pyExport-noconfig.cmake
