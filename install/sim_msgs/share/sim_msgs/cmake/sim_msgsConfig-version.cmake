@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_msgs/ament_cmake_core/sim_msgsConfig-version.cmake

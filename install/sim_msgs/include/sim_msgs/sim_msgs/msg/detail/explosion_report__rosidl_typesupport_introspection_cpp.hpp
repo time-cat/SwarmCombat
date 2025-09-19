@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_msgs/rosidl_typesupport_introspection_cpp/sim_msgs/msg/detail/explosion_report__rosidl_typesupport_introspection_cpp.hpp

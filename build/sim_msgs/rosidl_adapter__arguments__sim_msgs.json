@@ -1,9 +1,0 @@
-{
-  "package_name": "sim_msgs",
-  "non_idl_tuples": [
-    "/home/tong/Projects/SwarmCombat/src/simulator/sim_msgs:msg/DeathNotice.msg",
-    "/home/tong/Projects/SwarmCombat/src/simulator/sim_msgs:msg/ExplosionReport.msg",
-    "/home/tong/Projects/SwarmCombat/src/simulator/sim_msgs:msg/PerceivedState.msg",
-    "/home/tong/Projects/SwarmCombat/src/simulator/sim_msgs:msg/FwControl.msg"
-  ]
-}

@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_generator_py/sim_clock/_sim_clock_s.ep.rosidl_typesupport_introspection_c.c

@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_msgs/rosidl_generator_py/sim_msgs/msg/_death_notice.py

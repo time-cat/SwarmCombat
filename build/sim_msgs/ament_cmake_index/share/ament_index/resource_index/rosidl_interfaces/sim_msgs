@@ -1,8 +1,0 @@
-msg/DeathNotice.idl
-msg/DeathNotice.msg
-msg/ExplosionReport.idl
-msg/ExplosionReport.msg
-msg/FwControl.idl
-msg/FwControl.msg
-msg/PerceivedState.idl
-msg/PerceivedState.msg

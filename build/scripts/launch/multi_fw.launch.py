@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/src/scripts/launch/multi_fw.launch.py

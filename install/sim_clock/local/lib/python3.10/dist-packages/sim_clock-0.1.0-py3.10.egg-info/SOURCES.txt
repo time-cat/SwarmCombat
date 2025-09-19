@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_clock/ament_cmake_python/sim_clock/sim_clock.egg-info/SOURCES.txt

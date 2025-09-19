@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_cmake/srv/SetRate_Request.msg

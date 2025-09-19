@@ -1,8 +1,0 @@
-setup.py
-sim_clock/__init__.py
-sim_clock.egg-info/PKG-INFO
-sim_clock.egg-info/SOURCES.txt
-sim_clock.egg-info/dependency_links.txt
-sim_clock.egg-info/top_level.txt
-sim_clock/srv/__init__.py
-sim_clock/srv/_set_rate.py

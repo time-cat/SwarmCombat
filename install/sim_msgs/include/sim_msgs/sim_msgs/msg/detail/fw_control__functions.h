@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_msgs/rosidl_generator_c/sim_msgs/msg/detail/fw_control__functions.h

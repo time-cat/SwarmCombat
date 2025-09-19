@@ -1,2 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/gcs_planner/CMakeFiles/edit_cache.dir
-/home/tong/Projects/SwarmCombat/build/gcs_planner/CMakeFiles/rebuild_cache.dir

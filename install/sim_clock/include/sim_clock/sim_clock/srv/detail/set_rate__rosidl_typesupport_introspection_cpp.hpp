@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_typesupport_introspection_cpp/sim_clock/srv/detail/set_rate__rosidl_typesupport_introspection_cpp.hpp

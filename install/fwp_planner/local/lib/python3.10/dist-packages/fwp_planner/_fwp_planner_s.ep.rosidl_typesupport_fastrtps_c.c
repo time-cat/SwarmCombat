@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/fwp_planner/rosidl_generator_py/fwp_planner/_fwp_planner_s.ep.rosidl_typesupport_fastrtps_c.c

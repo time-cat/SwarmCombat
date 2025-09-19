@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/sim_clock/rosidl_generator_c/sim_clock/msg/rosidl_generator_c__visibility_control.h

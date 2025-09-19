@@ -1,2 +1,0 @@
-Invoking command in '/home/tong/Projects/SwarmCombat/build/gcs_planner': /usr/bin/cmake --build /home/tong/Projects/SwarmCombat/build/gcs_planner -- -j32 -l32
-Invoked command in '/home/tong/Projects/SwarmCombat/build/gcs_planner' returned '0': /usr/bin/cmake --build /home/tong/Projects/SwarmCombat/build/gcs_planner -- -j32 -l32

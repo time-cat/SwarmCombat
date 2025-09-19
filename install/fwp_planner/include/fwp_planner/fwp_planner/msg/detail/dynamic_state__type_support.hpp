@@ -1,1 +1,0 @@
-/home/tong/Projects/SwarmCombat/build/fwp_planner/rosidl_generator_cpp/fwp_planner/msg/detail/dynamic_state__type_support.hpp

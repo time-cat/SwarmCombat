@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/tong/Projects/SwarmCombat/build/fw_plane/fw_sim_node" "/home/tong/Projects/SwarmCombat/build/fw_plane/fw_visualizer_node" "TARGETS" "fw_sim_node" "fw_visualizer_node" "DESTINATION" "lib/fw_plane")

@@ -1,4 +1,0 @@
-source;share/sim_clock/environment/ament_prefix_path.sh
-source;share/sim_clock/environment/library_path.sh
-source;share/sim_clock/environment/path.sh
-source;share/sim_clock/environment/pythonpath.sh

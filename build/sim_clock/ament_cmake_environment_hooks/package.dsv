@@ -1,4 +1,0 @@
-source;share/sim_clock/local_setup.bash
-source;share/sim_clock/local_setup.dsv
-source;share/sim_clock/local_setup.sh
-source;share/sim_clock/local_setup.zsh
