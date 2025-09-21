@@ -70,10 +70,10 @@ install(
     DESTINATION include
 )
 
-# 安装 launch 文件
-install(DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}/
-)
+# # 安装 launch 文件
+# install(DIRECTORY launch
+#   DESTINATION share/${PROJECT_NAME}/
+# )
 
 # 这是 ament 的魔法，确保所有必要的配置文件和标记被正确安装
 ament_package()

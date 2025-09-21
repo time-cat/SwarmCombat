@@ -8,7 +8,7 @@ namespace FwSimulator
 FwDynamics::FwDynamics()
 {
     // --- 初始化物理参数 (以一个小型无人机为例) ---
-    mass_ = 1.5; // kg
+    mass_ = 2.3; // kg
     g_ = 9.80665; // m/s^2
     
     // 转动惯量矩阵 (示例值, 需要根据具体飞机模型修改)
@@ -60,7 +60,7 @@ FwDynamics::differentialEquation(const StateVector& x, StateVector& dxdt, double
 
     // 推力 (简化模型：沿机体x轴)
     // 您可以根据需要创建更复杂的推力模型
-    const double max_thrust = 20.0; // N
+    const double max_thrust = 30.0; // N
     Eigen::Vector3d thrust_force_body(input_.throttle * max_thrust, 0, 0);
 
     // 合力与合力矩

@@ -48,3 +48,5 @@ colcon build --symlink-install
 
 
 ros2 topic pub --once /fw0/fw_control sim_msgs/msg/FwControl "{desired_roll: 0.0, desired_pitch: 0.1, desired_yaw_rate: 0.0, desired_airspeed: 17.0}"
+
+ros2 launch fw_plane single_fw_sim.launch.py 2>&1 | tee sim_output.log

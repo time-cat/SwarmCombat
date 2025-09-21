@@ -1,8 +1,8 @@
 /**
- * @file fw_logic_node.cpp
+ * @file gcs_logic_node.cpp
  * @author Tong
- * @brief Standalone ROS 2 node for a single fixed-wing UAV's logic in a swarm.
- *        Handles detection, communication, decision-making, and motion planning.
+ * @brief Standalone ROS 2 node for a single ground control station.
+ *        Handles detection, communication, decision-making.
  *        Subscribes to its own simulator state and swarm messages, and publishes
  *        control commands and swarm messages.
  *
@@ -24,18 +24,17 @@
 
 // ROS 2 Standard Messages
 #include <geometry_msgs/msg/point.hpp>
-#include <nav_msgs/msg/odometry.hpp>
 
-// Assumed Custom Swarm Messages (converted to ROS 2)
+// 暂时简化地复用下无人机通信的消息格式
+// 更严格的需要专门使用无人机地面站的通信格式
 #include "fwp_planner/msg/dynamic_state.hpp"
 #include "fwp_planner/msg/fused_enemy.hpp"
 #include "fwp_planner/msg/fused_teammate.hpp"
-#include "fwp_planner/msg/team_broadcast.hpp"
+#include "fwp_planner/msg/team_broadcast.hpp"   
 #include "fwp_planner/msg/team_multicast.hpp"
 
 #include "sim_msgs/msg/perceived_state.hpp"
 #include "sim_msgs/msg/explosion_report.hpp"
-#include "sim_msgs/msg/fw_control.hpp"
 #include "sim_msgs/msg/death_notice.hpp"
 
 // TF2 for quaternion math
@@ -60,17 +59,19 @@ struct StoredBroadcastInfo {
     rclcpp::Time timestamp;
 };
 
-
 // The main logic node class
-class FwLogicNode : public rclcpp::Node
+class GcsLogicNode : public rclcpp::Node
 {
 public:
-    FwLogicNode() : Node("fw_logic_node")
+    GcsLogicNode() : Node("gcs_logic_node")
     {
         // --- 1. Declare and Get Parameters ---
-        this->declare_parameter<int>("id", 1);
+        this->declare_parameter<int>("id", 0);
         this->declare_parameter<std::string>("team", "red");
-        this->declare_parameter<double>("fov_range", 1000.0);
+        this->declare_parameter<double>("position.x", 0.0);
+        this->declare_parameter<double>("position.y", 0.0);
+        this->declare_parameter<double>("position.z", 0.0);
+        this->declare_parameter<double>("fov_range", 10000.0);
         this->declare_parameter<double>("fov_angle", 1.9); // radians
         this->declare_parameter<double>("com_range", 1200.0);
         this->declare_parameter<double>("exp_range", 80.0);
@@ -85,7 +86,22 @@ public:
         exp_range_ = this->get_parameter("exp_range").as_double();
         stale_data_timeout_ = this->get_parameter("stale_data_timeout").as_double();
 
-        RCLCPP_INFO(this->get_logger(), "Starting FwLogicNode for UAV ID %d on team '%s'", id_, team_.c_str());
+        // Get position from parameters
+        position_.x = this->get_parameter("position.x").as_double();
+        position_.y = this->get_parameter("position.y").as_double();
+        position_.z = this->get_parameter("position.z").as_double();
+        // Populate the static state variable 'state_'. Assuming NED coordinates.
+        state_.posi_n = position_.x; // North
+        state_.posi_e = position_.y; // East
+        state_.posi_d = position_.z; // Down
+        tf2::Quaternion q;
+        q.setRPY(0, -M_PI / 2.0, 0);
+        state_.orient_w = q.w();
+        state_.orient_x = q.x();
+        state_.orient_y = q.y();
+        state_.orient_z = q.z();
+
+        RCLCPP_INFO(this->get_logger(), "Starting GcsLogicNode for %d on team '%s'", id_, team_.c_str());
 
         // --- 2. Initialize ROS 2 Communications ---
         std::string team_topic_prefix = std::string("/") + team_;
@@ -93,24 +109,21 @@ public:
         std::string enemy_topic_prefix = std::string("/") + enemy_team;
 
         // Publishers
-        control_pub_ = this->create_publisher<sim_msgs::msg::FwControl>("fw_control", 10);   // sim_node
         perceivedstate_pub_ = this->create_publisher<sim_msgs::msg::PerceivedState>(team_topic_prefix + "/perceivedstate", 10);
         teambroadcast_pub_  = this->create_publisher<fwp_planner::msg::TeamBroadcast>(team_topic_prefix + "/teambroadcast", 10);
         teammulticast_pub_  = this->create_publisher<fwp_planner::msg::TeamMulticast>(team_topic_prefix + "/teammulticast", 10);
-        explosion_pub_      = this->create_publisher<sim_msgs::msg::ExplosionReport>("/simulation/explosions", 10);
 
         // Subscribers
-        odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "odom", 10, std::bind(&FwLogicNode::odom_callback, this, std::placeholders::_1));  // sim_node
         perceivedstate_sub_ = this->create_subscription<sim_msgs::msg::PerceivedState>(
-            enemy_topic_prefix + "/perceivedstate", 100, std::bind(&FwLogicNode::detection_callback, this, std::placeholders::_1));
+            enemy_topic_prefix + "/perceivedstate", 100, std::bind(&GcsLogicNode::detection_callback, this, std::placeholders::_1));
         teambroadcast_sub_ = this->create_subscription<fwp_planner::msg::TeamBroadcast>(
-            team_topic_prefix + "/teambroadcast", 50, std::bind(&FwLogicNode::teambroadcast_callback, this, std::placeholders::_1));
+            team_topic_prefix + "/teambroadcast", 50, std::bind(&GcsLogicNode::teambroadcast_callback, this, std::placeholders::_1));
         teammulticast_sub_ = this->create_subscription<fwp_planner::msg::TeamMulticast>(
-            team_topic_prefix + "/teammulticast", 50, std::bind(&FwLogicNode::teammulticast_callback, this, std::placeholders::_1));
-        explosion_sub_     = this->create_subscription<sim_msgs::msg::ExplosionReport>(
-            "/simulation/explosions", 10, std::bind(&FwLogicNode::explosion_callback, this, std::placeholders::_1));
-
+            team_topic_prefix + "/teammulticast", 50, std::bind(&GcsLogicNode::teammulticast_callback, this, std::placeholders::_1));
+        
+        // Explosion
+        explosion_sub_   = this->create_subscription<sim_msgs::msg::ExplosionReport>(
+            "/simulation/explosions", 10, std::bind(&GcsLogicNode::explosion_callback, this, std::placeholders::_1));
         // Death Notice
         deathnotice_pub_ = this->create_publisher<sim_msgs::msg::DeathNotice>("deathnotice", rclcpp::QoS(1).transient_local());
 
@@ -123,7 +136,7 @@ public:
             node_timers_interface,
             this->get_clock(),
             rclcpp::Duration::from_seconds(1.0 / logic_rate),
-            std::bind(&FwLogicNode::logic_loop, this)
+            std::bind(&GcsLogicNode::logic_loop, this)
         );
     }
 
@@ -143,8 +156,6 @@ private:
             return;
         }
 
-        bool trigger_hit = false;
-        std::lock_guard<std::mutex> lock(state_mutex_);  // Lock to ensure state data is consistent during the logic cycle
         // 1. 感知：获取战场态势信息（自己、队友、敌方）
         // detection_callback     更新邻近敌方的态势信息
         // teambroadcast_callback 更新邻近友方的态势信息
@@ -152,21 +163,8 @@ private:
         // 2. 预测：利用战场态势信息（将延迟的态势信息估计到当前）
         // TODO:
         CleanStaleData();
-        // 3. 决策：是否自爆或者决定打击目标
-        target_id_  = SelectTarget();
-        trigger_hit = DecideExplode();
-        // 4. 规划：规划飞行轨迹
-        sim_msgs::msg::FwControl ctrl_cmd = CalculateMotion();
-        // 5. 控制：发布控制指令（给内环控制）
-        // TODO: 外环控制器
-        control_pub_->publish(ctrl_cmd);
-        // 6. 自身状态信息发布
-        if(trigger_hit) {
-            is_alive_ = false;
-            explosion_publish();
-            RCLCPP_WARN(this->get_logger(), "UAV %d: BOOM! Shutting down logic loop.", id_);
-            return; // Stop further processing after self-destruct
-        }
+        // 3. 决策
+        // TODO
         perceivedstate_publish();
         if (mainloop_cnt_ % 3 != 0) {  // 组播广播通信
             teambroadcast_publish();
@@ -177,30 +175,6 @@ private:
     }
 
     // --- Callbacks ---
-    void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
-    {
-        std::lock_guard<std::mutex> lock(state_mutex_);
-        
-        // Convert ROS2 Odometry to  DynamicState (NED)
-        dynamic_state_.posi_n = msg->pose.pose.position.x;
-        dynamic_state_.posi_e = msg->pose.pose.position.y;
-        dynamic_state_.posi_d = msg->pose.pose.position.z;
-
-        position_ = geometry_msgs::build<geometry_msgs::msg::Point>()
-            .x(dynamic_state_.posi_n)
-            .y(dynamic_state_.posi_e)
-            .z(dynamic_state_.posi_d);
-        
-        dynamic_state_.orient_x = msg->pose.pose.orientation.x;
-        dynamic_state_.orient_y = msg->pose.pose.orientation.y;
-        dynamic_state_.orient_z = msg->pose.pose.orientation.z;
-        dynamic_state_.orient_w = msg->pose.pose.orientation.w;
-
-        auto vel = msg->twist.twist.linear;
-        dynamic_state_.vel = std::sqrt(vel.x*vel.x + vel.y*vel.y + vel.z*vel.z);
-
-        state_received_ = true;
-    }
     
     void detection_callback(const sim_msgs::msg::PerceivedState::SharedPtr msg)
     {
@@ -282,67 +256,49 @@ private:
     bool IsInFov(const sim_msgs::msg::PerceivedState::SharedPtr& msg)
     {
         // 1. 计算从无人机指向目标的向量 (在NED坐标系下)
-        double dx = msg->position.x - dynamic_state_.posi_n;
-        double dy = msg->position.y - dynamic_state_.posi_e;
-        double dz = msg->position.z - dynamic_state_.posi_d;
+        double dx = msg->position.x - state_.posi_n;
+        double dy = msg->position.y - state_.posi_e;
+        double dz = msg->position.z - state_.posi_d;
         
         // 2. 计算目标距离，并进行范围检查
         double dist_sq = dx*dx + dy*dy + dz*dz; // 先用平方距离避免开方
-        if (dist_sq > fov_range_ * fov_range_ || dist_sq < 1e-12) {
+        if (dist_sq > fov_range_ * fov_range_) {
             return false;
         }
-        double dist = std::sqrt(dist_sq);
-
-        // 3. 使用四元数计算无人机的前向向量 (在NED坐标系下)
-        // 无人机在自身坐标系(body frame)的前向向量是 [1, 0, 0]
-        // 我们需要用姿态四元数 q = (w, x, y, z) 将这个向量旋转到NED坐标系
-        double qw = dynamic_state_.orient_w;
-        double qx = dynamic_state_.orient_x;
-        double qy = dynamic_state_.orient_y;
-        double qz = dynamic_state_.orient_z;
-
-        // 这是通过旋转矩阵的第一列得到的标准公式，用于将向量[1,0,0]从机体坐标系转换到世界坐标系
-        double heading_x = 1.0 - 2.0 * (qy*qy + qz*qz);
-        double heading_y = 2.0 * (qx*qy + qw*qz);
-        double heading_z = 2.0 * (qx*qz - qw*qy);
-
-        // 4. 计算前向向量和目标向量的点积
-        double dot_product = heading_x * dx + heading_y * dy + heading_z * dz;
-
-        // 5. 计算两个向量夹角的余弦值
-        // 因为 heading 向量是单位向量，所以 |heading| = 1
-        // dot_product = |heading| * |target_vec| * cos(angle) = 1 * dist * cos(angle)
-        double cos_angle = dot_product / dist;
-
-        // 6. 检查夹角是否在FoV的一半以内
-        // 直接比较余弦值可以避免反余弦(acos)的计算，效率更高
-        // angle <= fov_angle / 2  等价于 cos(angle) >= cos(fov_angle / 2)
-        return cos_angle >= std::cos(fov_angle_ / 2.0);
+        // 3. Check if the target is "above" the GCS.
+        //    In the NED (North-East-Down) coordinate system, a smaller 'd' value means higher altitude.
+        //    Therefore, we check if the target's 'down' coordinate (msg->position.z)
+        //    is less than the GCS's 'down' coordinate (state_.posi_d).
+        if (msg->position.z < state_.posi_d) {
+            return true; // Target is within range and in the upper hemisphere.
+        } else {
+            return false;
+        }
     }
 
     bool IsInBroadcast(const fwp_planner::msg::TeamBroadcast::SharedPtr& msg)
     {
-        double dx = msg->dynamic_state.posi_n - dynamic_state_.posi_n;
-        double dy = msg->dynamic_state.posi_e - dynamic_state_.posi_e;
-        double dz = msg->dynamic_state.posi_d - dynamic_state_.posi_d;
+        double dx = msg->dynamic_state.posi_n - state_.posi_n;
+        double dy = msg->dynamic_state.posi_e - state_.posi_e;
+        double dz = msg->dynamic_state.posi_d - state_.posi_d;
         double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
         return dist <= msg->broadcast_range;
     }
     
     bool IsInMulticast(const fwp_planner::msg::TeamMulticast::SharedPtr& msg)
     {
-        double dx = msg->dynamic_state.posi_n - dynamic_state_.posi_n;
-        double dy = msg->dynamic_state.posi_e - dynamic_state_.posi_e;
-        double dz = msg->dynamic_state.posi_d - dynamic_state_.posi_d;
+        double dx = msg->dynamic_state.posi_n - state_.posi_n;
+        double dy = msg->dynamic_state.posi_e - state_.posi_e;
+        double dz = msg->dynamic_state.posi_d - state_.posi_d;
         double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
         return dist <= msg->multicast_range;
     }
 
     bool IsInExplosion(const sim_msgs::msg::ExplosionReport::SharedPtr& msg)
     {
-        double dx = msg->exp_center.x - dynamic_state_.posi_n;
-        double dy = msg->exp_center.y - dynamic_state_.posi_e;
-        double dz = msg->exp_center.z - dynamic_state_.posi_d;
+        double dx = msg->exp_center.x - state_.posi_n;
+        double dy = msg->exp_center.y - state_.posi_e;
+        double dz = msg->exp_center.z - state_.posi_d;
         double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
         return dist <= msg->exp_range;
     }
@@ -367,55 +323,6 @@ private:
         clean_map(teambroadcast_info_);
     }
 
-    int SelectTarget()
-    {
-        double min_dist = 1e9;
-        int target_id = -1;
-        for(const auto& pair : known_enemies_) {
-            double dx = pair.second.position.x - dynamic_state_.posi_n;
-            double dy = pair.second.position.y - dynamic_state_.posi_e;
-            double dz = pair.second.position.z - dynamic_state_.posi_d;
-            double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
-            if (dist < min_dist) {
-                min_dist = dist;
-                target_id = pair.first;
-            }
-        }
-        return target_id;
-    }
-    
-    bool DecideExplode()
-    {
-        if (target_id_ != -1 && known_enemies_.count(target_id_)) {
-            const auto& target = known_enemies_.at(target_id_);
-            double dx = target.position.x - dynamic_state_.posi_n;
-            double dy = target.position.y - dynamic_state_.posi_e;
-            double dz = target.position.z - dynamic_state_.posi_d;
-            double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
-            
-            if (dist < exp_range_) {
-                RCLCPP_INFO(this->get_logger(), "UAV %d: Target %d is in blast radius!", id_, target_id_);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    sim_msgs::msg::FwControl CalculateMotion()
-    {
-        // TODO: Implement advanced guidance law here
-        // For now, return a simple command to circle or fly straight.
-        sim_msgs::msg::FwControl cmd;
-        
-        // This simple logic just flies straight
-        cmd.desired_roll     = 0.0;
-        cmd.desired_pitch    = 0.0;
-        cmd.desired_yaw_rate = 0.0;
-        cmd.desired_airspeed = 20.0;
-
-        return cmd;
-    }
-
     // --- Publishing Functions ---
     void perceivedstate_publish()
     {
@@ -435,7 +342,7 @@ private:
         msg.header.frame_id = "map";
         msg.sender_id       = id_;
         msg.broadcast_range = com_range_;
-        msg.dynamic_state   = dynamic_state_;
+        msg.dynamic_state   = state_;
         msg.is_alive        = is_alive_;
         teambroadcast_pub_->publish(msg);
     }
@@ -449,20 +356,9 @@ private:
         msg.multicast_range = com_range_;
         msg.known_enemies   = convert_enemy_map_to_msg_vector(known_enemies_);
         msg.known_teammates = convert_teammate_map_to_msg_vector(known_teammates_);
-        msg.dynamic_state   = dynamic_state_;
+        msg.dynamic_state   = state_;
         msg.is_alive        = is_alive_;
         teammulticast_pub_->publish(msg);
-    }
-
-    void explosion_publish()
-    {
-        sim_msgs::msg::ExplosionReport msg;
-        msg.header.stamp    = this->get_clock()->now();
-        msg.header.frame_id = "map";
-        msg.attacker_id     = id_;
-        msg.exp_center      = position_;
-        msg.exp_range       = exp_range_;
-        explosion_pub_->publish(msg);
     }
 
     // --- Conversion Helper Functions ---
@@ -503,9 +399,8 @@ private:
         death_msg.header.stamp = this->get_clock()->now();
         death_msg.death        = true;  // 可视化节点死亡
         deathnotice_pub_->publish(death_msg);
-        RCLCPP_WARN(this->get_logger(), "UAV %s: FwLogicNode shutting down.", this->get_namespace());
+        RCLCPP_WARN(this->get_logger(), "UAV %s: GcsLogicNode shutting down.", this->get_namespace());
         // 所有订阅者关闭
-        odom_sub_.reset();
         perceivedstate_sub_.reset();
         teambroadcast_sub_.reset();
         teammulticast_sub_.reset();
@@ -519,13 +414,12 @@ private:
     double fov_range_, fov_angle_, com_range_, exp_range_, stale_data_timeout_;
     
     bool is_alive_ = true;
-    bool state_received_ = false;
-    int target_id_ = -1;
+    bool state_received_ = true;
 
     unsigned long long mainloop_cnt_ = 0;
     
-    fwp_planner::msg::DynamicState dynamic_state_;
-    geometry_msgs::msg::Point position_;
+    fwp_planner::msg::DynamicState state_; // 暂用
+    geometry_msgs::msg::Point position_;   // 地面站中心位置
     std::mutex state_mutex_;
 
     // Situational Awareness Data
@@ -534,22 +428,17 @@ private:
     std::map<int, StoredBroadcastInfo> teambroadcast_info_;
 
     // --- ROS 2 Members ---
-    rclcpp::Publisher<sim_msgs::msg::FwControl>::SharedPtr         control_pub_;
     rclcpp::Publisher<sim_msgs::msg::PerceivedState>::SharedPtr    perceivedstate_pub_;
-    rclcpp::Publisher<sim_msgs::msg::ExplosionReport>::SharedPtr   explosion_pub_;
     rclcpp::Publisher<fwp_planner::msg::TeamBroadcast>::SharedPtr  teambroadcast_pub_;
     rclcpp::Publisher<fwp_planner::msg::TeamMulticast>::SharedPtr  teammulticast_pub_;
     
-
-    rclcpp::Publisher<sim_msgs::msg::DeathNotice>::SharedPtr       deathnotice_pub_;
-
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr          odom_sub_;
     rclcpp::Subscription<sim_msgs::msg::PerceivedState>::SharedPtr    perceivedstate_sub_;
-    rclcpp::Subscription<sim_msgs::msg::ExplosionReport>::SharedPtr   explosion_sub_;
     rclcpp::Subscription<fwp_planner::msg::TeamBroadcast>::SharedPtr  teambroadcast_sub_;
     rclcpp::Subscription<fwp_planner::msg::TeamMulticast>::SharedPtr  teammulticast_sub_;
-    
 
+    rclcpp::Subscription<sim_msgs::msg::ExplosionReport>::SharedPtr  explosion_sub_;
+    rclcpp::Publisher<sim_msgs::msg::DeathNotice>::SharedPtr         deathnotice_pub_;
+    
     rclcpp::TimerBase::SharedPtr logic_timer_;
 };
 
@@ -558,7 +447,7 @@ private:
 int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
-    auto node = std::make_shared<FwLogicNode>();
+    auto node = std::make_shared<GcsLogicNode>();
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;

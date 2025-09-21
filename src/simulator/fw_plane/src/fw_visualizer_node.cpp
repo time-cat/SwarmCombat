@@ -107,32 +107,35 @@ private:
         pose_enu.position.y = pose_ned.position.x;
         pose_enu.position.z = -pose_ned.position.z;
 
-        // 2. Transform Attitude (FRD -> FLU in ENU)
-        // Convert incoming quaternion to TF2 quaternion
-        tf2::Quaternion q_ned;
-        tf2::fromMsg(pose_ned.orientation, q_ned);
-
-        // 2. Transform Attitude using direct Quaternion math (FRD body in NED -> FLU body in ENU)
-        // This is much more robust than converting to RPY angles.
-
-        // Convert incoming NED orientation to a tf2 quaternion
+        // 2. 转换姿态 (核心部分)
+        // 从 geometry_msgs::msg::Quaternion 转换到 tf2::Quaternion 以便进行数学运算
         tf2::Quaternion q_ned_frd;
         tf2::fromMsg(pose_ned.orientation, q_ned_frd);
 
-        // Define a fixed rotation that transforms from NED frame to ENU frame,
-        // and from a FRD body frame to a FLU body frame.
-        // This corresponds to a 90-degree yaw rotation and a 180-degree roll rotation.
+        // 定义一个固定的旋转，用于将NED世界系转换为ENU世界系
+        // 该旋转等效于：首先绕原始Z轴(Down)偏航+90度，然后绕新的X轴(East)滚转+180度
         tf2::Quaternion q_enu_from_ned;
-        q_enu_from_ned.setRPY(M_PI, 0.0, M_PI_2); // 180 deg roll, 90 deg yaw
+        q_enu_from_ned.setRPY(M_PI, 0.0, M_PI_2);
 
-        // Apply the transformation by multiplying the quaternions.
-        // The order is important: new_orientation = transform * old_orientation
-        tf2::Quaternion q_enu_flu = q_enu_from_ned * q_ned_frd;
+        // 定义一个固定的旋转，用于将FRD机体约定转换为ROS常用的FLU机体约定
+        // 该旋转等效于绕机体的X轴(Forward)滚转180度
+        tf2::Quaternion q_flu_from_frd;
+        q_flu_from_frd.setRPY(M_PI, 0.0, 0.0);
 
-        // Normalize the resulting quaternion to ensure it's a valid unit quaternion
+        // --- 应用组合变换 ---
+        // 最终的姿态是在ENU坐标系下，以FLU为约定的姿态
+        // 计算方法：首先将NED下的姿态转换到ENU系下，然后应用机体约定变换
+        // q_C' = (q_B_from_A * q_C) * q_C'_from_C
+        // 其中 C' 是FLU, C 是FRD, B 是ENU, A 是NED
+        // 但由于FLU和FRD的定义是相对于机体自身的，可以直接后乘
+        
+        tf2::Quaternion q_enu_flu = q_enu_from_ned * q_ned_frd * q_flu_from_frd;
+
+
+        // 归一化四元数以保证其有效性
         q_enu_flu.normalize();
 
-        // Convert back to geometry_msgs and assign to output
+        // 将计算结果转换回 geometry_msgs::msg::Quaternion 并赋值
         pose_enu.orientation = tf2::toMsg(q_enu_flu);
     }
 
@@ -177,6 +180,7 @@ private:
         crash_tf.transform.rotation.z = 0.0;
         crash_tf.transform.rotation.w = 1.0;
         tf_broadcaster_->sendTransform(crash_tf);
+        std::this_thread::sleep_for(std::chrono::seconds(3)); // 可视化螺旋桨关闭延时 3 秒（不然螺旋桨会滞留）
         // d) 告诉 robot_state_publisher 将螺旋桨置于其默认的0度角位置。从而确保它能跟随 base_link 一起移动到坠毁位置。
         sensor_msgs::msg::JointState final_joint_state;
         final_joint_state.header.stamp = this->get_clock()->now();

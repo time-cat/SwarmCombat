@@ -1,25 +1,24 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-    <name>gcs_planner</name>
-    <version>0.1.0</version>
-    <description>ROS 2 package for the fixed-wing UAV swarm logic node.</description>
-    <maintainer email="your_email@todo.todo">Your Name</maintainer>
+    <name>gc_station</name>
+    <version>0.0.0</version>
+    <description>Ground control station simulator package</description>
+    <maintainer email="user@todo.com">user</maintainer>
     <license>TODO: License declaration</license>
 
     <buildtool_depend>ament_cmake</buildtool_depend>
 
-    <depend>rclcpp</depend>
-    <depend>geometry_msgs</depend>
-    <depend>tf2</depend>
-    <depend>tf2_geometry_msgs</depend>
-    <depend>sim_msgs</depend>
-    <depend>fwp_planner</depend>
-    <depend>builtin_interfaces</depend>
+    <exec_depend>ros2launch</exec_depend>
 
-    <build_depend>rosidl_default_generators</build_depend>
-    <exec_depend>rosidl_default_runtime</exec_depend>
-    <member_of_group>rosidl_interface_packages</member_of_group>
+    <depend>rclcpp</depend>
+    <depend>std_msgs</depend>
+    <depend>sim_msgs</depend> <!-- 依赖我们自己的消息包 -->
+    <depend>visualization_msgs</depend>
+    <depend>tf2</depend>
+    <depend>tf2_ros</depend>
+    <depend>tf2_geometry_msgs</depend>
+    <depend>geometry_msgs</depend>
 
     <test_depend>ament_lint_auto</test_depend>
     <test_depend>ament_lint_common</test_depend>

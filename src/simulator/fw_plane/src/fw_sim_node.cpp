@@ -1,5 +1,5 @@
-#include <thread>   // <-- 添加这一行
-#include <chrono>   // <-- 添加这一行
+#include <thread>  
+#include <chrono> 
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/timer.hpp>
 #include <nav_msgs/msg/odometry.hpp>
@@ -21,7 +21,13 @@ public:
         integral_ += error * dt;
         double derivative = (error - prev_error_) / dt;
         prev_error_ = error;
-        return kp_ * error + ki_ * integral_ + kd_ * derivative;
+
+        double output = kp_ * error + ki_ * integral_ + kd_ * derivative;
+        // 调试打印
+        RCLCPP_WARN(rclcpp::get_logger("PID_DEBUG"), "Setpoint: %.4f, Current: %.4f, Dt: %.4f", setpoint, current_value, dt);
+        RCLCPP_WARN(rclcpp::get_logger("PID_DEBUG"), "Error: %.4f, Integral: %.4f, Derivative: %.4f", error, integral_, derivative);
+
+        return output;
     }
 
 private:
@@ -36,10 +42,10 @@ class FwSimNode : public rclcpp::Node
 public:
     FwSimNode() : Node("fw_sim_node"),
         // 初始化内环PID控制器 (这些增益需要根据飞机模型进行调整)
-        roll_controller_(0.1, 0.1, 0.02),
-        pitch_controller_(0.9, 0.2, 0.05),
-        yaw_rate_controller_(1.0, 0.0, 0.0),
-        airspeed_controller_(0.8, 0.15, 0.0)
+        roll_controller_(0.4, 0.1, 0.0),
+        pitch_controller_(1.4, 0.05, 0.0),
+        yaw_rate_controller_(0.2, 0.1, 0.0),
+        airspeed_controller_(0.09, 0.01, 0.0)
     {
         // --- 参数声明和获取 ---
         this->declare_parameter<double>("initial_state.north", 0.0);
@@ -48,7 +54,7 @@ public:
         this->declare_parameter<double>("initial_state.roll", 0.0);
         this->declare_parameter<double>("initial_state.pitch", 0.0);
         this->declare_parameter<double>("initial_state.yaw", 0.0);
-        this->declare_parameter<double>("initial_state.airspeed", 15.0); // 初始空速
+        this->declare_parameter<double>("initial_state.airspeed", 20.0); // 初始空速
 
         this->declare_parameter<double>("rate.simulation", 100.0); // 动力学仿真频率
         this->declare_parameter<double>("rate.odom", 50.0);        // Odometry 发布频率
@@ -128,7 +134,8 @@ private:
     void simulationLoop()
     {
         // 1. 更新内环控制器，计算舵面和油门
-        updateControls();
+        // updateControls();
+        updateControls_QuaternionMethod(); // <--- 新的、基于四元数的方法
 
         // 2. 运行一步动力学仿真
         double current_time = this->now().seconds();
@@ -136,6 +143,84 @@ private:
 
         // 3. 发布传感器数据
         publishMessages();
+    }
+
+    /********************************************************************************
+    * Corrected Core Control Function: True Quaternion-based Attitude Error
+    ********************************************************************************/
+    void updateControls_QuaternionMethod()
+    {
+        sim_msgs::msg::FwControl cmd;
+        {
+            std::lock_guard<std::mutex> lock(control_mutex_);
+            cmd = last_control_cmd_;
+        }
+
+        // --- 1. Get Current State ---
+        Eigen::Quaterniond q_current = fw_dynamics_.getQuaternion();
+        Eigen::Vector3d current_omega = fw_dynamics_.getAngularVelocity();
+        double airspeed = fw_dynamics_.getAirspeed();
+        
+        // --- 2. Build Desired Attitude Quaternion (Yaw Independent) ---
+        // This quaternion represents the desired tilt (roll and pitch) ONLY.
+        Eigen::Quaterniond q_d_attitude(Eigen::AngleAxisd(cmd.desired_pitch, Eigen::Vector3d::UnitY()) *
+                                        Eigen::AngleAxisd(cmd.desired_roll, Eigen::Vector3d::UnitX()));
+
+        // --- 3. Remove Yaw from Current Attitude ---
+        // To compare apples to apples, we must remove the yaw component from the current
+        // orientation quaternion. We do this by finding the yaw angle and rotating back.
+        auto euler_angles = fw_dynamics_.getEulerAngles(); // This is SAFE for getting yaw
+        double current_yaw = euler_angles.z();
+        Eigen::Quaterniond q_yaw_inverse(Eigen::AngleAxisd(-current_yaw, Eigen::Vector3d::UnitZ()));
+        Eigen::Quaterniond q_current_attitude = q_yaw_inverse * q_current;
+
+        // --- 4. Calculate Pure Attitude Error Quaternion ---
+        // Now we compare the two "yaw-less" quaternions.
+        // q_d_attitude = q_current_attitude * q_error
+        Eigen::Quaterniond q_error = q_current_attitude.inverse() * q_d_attitude;
+
+        // --- 5. Convert Error Quaternion to a 3D Body-Frame Error Vector ---
+        Eigen::Vector3d error_vector;
+        // Ensure we take the shortest rotation path
+        if (q_error.w() < 0.0) {
+            error_vector = -2.0 * q_error.vec(); // .vec() is [x, y, z]
+        } else {
+            error_vector = 2.0 * q_error.vec();
+        }
+        // error_vector.x() is now the roll error in the body frame
+        // error_vector.y() is now the pitch error in the body frame
+        // error_vector.z() is the yaw error relative to the de-yawed frame (we ignore it)
+
+        // --- 6. Use Error Vector for PID Control (Setpoint is 0) ---
+        // The PID controller's job is to drive the error vector's components to zero.
+        double aileron_out = -roll_controller_.calculate(0.0, error_vector.x(), simulation_dt_);
+        // Standard convention: positive elevator (down) creates negative pitching moment.
+        double elevator_out = pitch_controller_.calculate(0.0, error_vector.y(), simulation_dt_);
+        
+        // Yaw and airspeed controllers are independent of the attitude problem and remain the same.
+        double rudder_out = -yaw_rate_controller_.calculate(cmd.desired_yaw_rate, current_omega.z(), simulation_dt_); 
+        double throttle_out = airspeed_controller_.calculate(cmd.desired_airspeed, airspeed, simulation_dt_);
+        
+        RCLCPP_INFO(this->get_logger(), "[PID_OUT] Raw Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
+            aileron_out, elevator_out, rudder_out, throttle_out);
+
+        // --- 7. Limit Outputs and Apply to Dynamics Model ---
+        aileron_out = std::max(-1.0, std::min(1.0, aileron_out));
+        elevator_out = std::max(-1.0, std::min(1.0, elevator_out));
+        rudder_out = std::max(-1.0, std::min(1.0, rudder_out));
+        throttle_out = std::max(0.0, std::min(1.0, throttle_out));
+
+        RCLCPP_INFO(this->get_logger(), "[PID_OUT] Clamped Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
+            aileron_out, elevator_out, rudder_out, throttle_out);
+
+        const double MAX_DEFLECTION_RAD = 25.0 * M_PI / 180.0;
+        FwSimulator::FwDynamics::Input sim_input;
+        sim_input.aileron = aileron_out * MAX_DEFLECTION_RAD;
+        sim_input.elevator = elevator_out * MAX_DEFLECTION_RAD;
+        sim_input.rudder = rudder_out * MAX_DEFLECTION_RAD;
+        sim_input.throttle = throttle_out;
+
+        fw_dynamics_.setInput(sim_input);
     }
 
     // --- 核心功能函数 ---
@@ -151,20 +236,31 @@ private:
         auto euler_angles = fw_dynamics_.getEulerAngles(); // (roll, pitch, yaw)
         double airspeed = fw_dynamics_.getAirspeed();
 
+        RCLCPP_INFO(this->get_logger(), "[CTRL_IN] Current: Roll=%.2f, Pitch=%.2f, YawRate=%.2f, Airspeed=%.2f",
+            euler_angles.x(), euler_angles.y(), current_state.omega.z(), airspeed);
+
         // 内环控制器计算
         double aileron_out = roll_controller_.calculate(cmd.desired_roll, euler_angles.x(), simulation_dt_);
-        double elevator_out = pitch_controller_.calculate(cmd.desired_pitch, -euler_angles.y(), simulation_dt_);
+        double elevator_out = -pitch_controller_.calculate(cmd.desired_pitch, euler_angles.y(), simulation_dt_);
         
         // 偏航使用角速度控制，更符合固定翼特性
-        double rudder_out = yaw_rate_controller_.calculate(cmd.desired_yaw_rate, -current_state.omega.z(), simulation_dt_); 
+        double rudder_out = -yaw_rate_controller_.calculate(cmd.desired_yaw_rate, current_state.omega.z(), simulation_dt_); 
         
         double throttle_out = airspeed_controller_.calculate(cmd.desired_airspeed, airspeed, simulation_dt_);
         
+        // [DEBUG] 打印PID原始输出
+        RCLCPP_INFO(this->get_logger(), "[PID_OUT] Raw Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
+            aileron_out, elevator_out, rudder_out, throttle_out);
+
         // 限制输出范围
         aileron_out = std::max(-1.0, std::min(1.0, aileron_out));
         elevator_out = std::max(-1.0, std::min(1.0, elevator_out));
         rudder_out = std::max(-1.0, std::min(1.0, rudder_out));
         throttle_out = std::max(0.0, std::min(1.0, throttle_out));
+
+        // [DEBUG] 打印限制后的输出
+        RCLCPP_INFO(this->get_logger(), "[PID_OUT] Clamped Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
+            aileron_out, elevator_out, rudder_out, throttle_out);
 
         // 将归一化的控制量转换为舵偏角和油门值
         const double MAX_DEFLECTION_RAD = 25.0 * M_PI / 180.0; // 假设最大舵偏角为25度
