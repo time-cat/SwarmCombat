@@ -24,8 +24,8 @@ public:
 
         double output = kp_ * error + ki_ * integral_ + kd_ * derivative;
         // 调试打印
-        RCLCPP_WARN(rclcpp::get_logger("PID_DEBUG"), "Setpoint: %.4f, Current: %.4f, Dt: %.4f", setpoint, current_value, dt);
-        RCLCPP_WARN(rclcpp::get_logger("PID_DEBUG"), "Error: %.4f, Integral: %.4f, Derivative: %.4f", error, integral_, derivative);
+        // RCLCPP_WARN(rclcpp::get_logger("PID_DEBUG"), "Setpoint: %.4f, Current: %.4f, Dt: %.4f", setpoint, current_value, dt);
+        // RCLCPP_WARN(rclcpp::get_logger("PID_DEBUG"), "Error: %.4f, Integral: %.4f, Derivative: %.4f", error, integral_, derivative);
 
         return output;
     }
@@ -201,8 +201,8 @@ private:
         double rudder_out = -yaw_rate_controller_.calculate(cmd.desired_yaw_rate, current_omega.z(), simulation_dt_); 
         double throttle_out = airspeed_controller_.calculate(cmd.desired_airspeed, airspeed, simulation_dt_);
         
-        RCLCPP_INFO(this->get_logger(), "[PID_OUT] Raw Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
-            aileron_out, elevator_out, rudder_out, throttle_out);
+        // RCLCPP_INFO(this->get_logger(), "[PID_OUT] Raw Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
+        //     aileron_out, elevator_out, rudder_out, throttle_out);
 
         // --- 7. Limit Outputs and Apply to Dynamics Model ---
         aileron_out = std::max(-1.0, std::min(1.0, aileron_out));
@@ -210,8 +210,8 @@ private:
         rudder_out = std::max(-1.0, std::min(1.0, rudder_out));
         throttle_out = std::max(0.0, std::min(1.0, throttle_out));
 
-        RCLCPP_INFO(this->get_logger(), "[PID_OUT] Clamped Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
-            aileron_out, elevator_out, rudder_out, throttle_out);
+        // RCLCPP_INFO(this->get_logger(), "[PID_OUT] Clamped Outputs: Ail=%.3f, Elev=%.3f, Rud=%.3f, Thr=%.3f",
+        //     aileron_out, elevator_out, rudder_out, throttle_out);
 
         const double MAX_DEFLECTION_RAD = 25.0 * M_PI / 180.0;
         FwSimulator::FwDynamics::Input sim_input;

@@ -14,12 +14,12 @@ from ament_index_python.packages import get_package_share_directory
 # A centralized list to define all UAVs to be launched.
 # This makes it easy to add, remove, or modify UAVs and their initial poses.
 UAV_CONFIGS = [
-    {'name': 'fw1',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': 0.0,    'yaw': 0.0},
+    # {'name': 'fw1',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': 0.0,    'yaw': 0.0},
     # {'name': 'fw2',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -20.0,  'yaw': 0.0},
     # {'name': 'fw3',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -40.0,  'yaw': 0.0},
     # {'name': 'fw4',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -60.0,  'yaw': 0.0},
     # {'name': 'fw5',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -80.0,  'yaw': 0.0},
-    {'name': 'fw101', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': 0.0,    'yaw': 3.14},
+    {'name': 'fw101', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 150.0, 'x': 600.0, 'y': 0.0,    'yaw': 3.14},
     # {'name': 'fw102', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -20.0,  'yaw': 3.14},
     # {'name': 'fw103', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -40.0,  'yaw': 3.14},
     # {'name': 'fw104', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': 0.0,  'yaw': 3.14},
@@ -29,7 +29,7 @@ UAV_CONFIGS = [
 ]
 
 GCS_CONFIGS = [
-    {'name': 'gcs_red',  'team': 'red',  'fov_range': 10000.0, 'com_range': 12000.0, 'x': 0.0, 'y': 0.0, 'z': 0.0},
+    {'name': 'gcs_red',  'team': 'red',  'fov_range': 450.0, 'com_range': 550.0, 'x': 0.0, 'y': 0.0, 'z': 0.0, 'alpha': 0.2},
     # {'name': 'gcs_blue', 'team': 'blue', 'fov_range': 10000.0, 'com_range': 12000.0, 'x': 1100.0, 'y': -40.0, 'z': 0.0}
 ]
 
@@ -56,17 +56,17 @@ def generate_multi_rviz_config(context):
         }
         all_uav_displays.append(uav_group)
 
-    # for gcs in GCS_CONFIGS:
-    #     namespace = gcs['name']
-    #     gcs_group = {
-    #         'Name': namespace,
-    #         'Class': 'rviz_common/Group',
-    #         'Enabled': True,
-    #         'Displays': [
-    #             { 'Name': 'Ranges', 'Class': 'rviz_default_plugins/Marker', 'Enabled': True, 'Topic': {'Value': f"/{namespace}/gcs_ranges_marker", 'Depth': 5, 'Reliability Policy': 'Reliable'}},
-    #         ]
-    #     }
-    #     all_uav_displays.append(gcs_group)
+    for gcs in GCS_CONFIGS:
+        namespace = gcs['name']
+        gcs_group = {
+            'Name': namespace,
+            'Class': 'rviz_common/Group',
+            'Enabled': True,
+            'Displays': [
+                { 'Name': 'Ranges', 'Class': 'rviz_default_plugins/Marker', 'Enabled': True, 'Topic': {'Value': f"/{namespace}/gcs_ranges_marker", 'Depth': 5, 'Reliability Policy': 'Reliable'}},
+            ]
+        }
+        all_uav_displays.append(gcs_group)
 
     rviz_config = {
         'Panels': [ 
@@ -83,7 +83,8 @@ def generate_multi_rviz_config(context):
                 'Frame Rate': '30',
             },
             'Displays': [
-                {'Name': 'Grid', 'Class': 'rviz_default_plugins/Grid', 'Enabled': True, 'Color': '160; 160; 164', 'Plane': 'XY', 'Cell Size': 20.0, 'Plane Cell Count': 100, 'Reference Frame': '<Fixed Frame>'},
+                # {'Name': 'Ground Plane', 'Class': 'rviz_default_plugins/Plane', 'Enabled': True, 'Color': '150; 150; 150; 255', 'Width': 2000, 'Height': 2000, 'Normal': {'X': 0, 'Y': 0, 'Z': 1}, 'Offset': 0, 'Reference Frame': '<Fixed Frame>'},
+                {'Name': 'Grid', 'Class': 'rviz_default_plugins/Grid', 'Enabled': True, 'Color': '180; 180; 184', 'Plane': 'XY', 'Cell Size': 20.0, 'Plane Cell Count': 100, 'Reference Frame': '<Fixed Frame>', 'Alpha': 1.0},
                 {'Name': 'WorldOrigin', 'Class': 'rviz_default_plugins/Axes', 'Enabled': True, 'Length': 7.0, 'Radius': 0.5},
                 {'Name': 'TF', 'Class': 'rviz_default_plugins/TF', 'Enabled': True, 'Show Names': True},
                 *all_uav_displays
@@ -203,24 +204,25 @@ def generate_launch_description():
         )
         launch_actions.append(gcs_logic_node)
 
-        # gcs_visualizer_node = Node(
-        #      package='gc_station', # 假设这是你的包名
-        #      executable='gcs_visualizer_node',
-        #      name='gcs_visualizer',
-        #      namespace=gcs['name'],
-        #      parameters=[
-        #          {'use_sim_time': LaunchConfiguration('use_sim_time')},
-        #          {'team': gcs['team']},
-        #          {'position.x': gcs['x']},
-        #          {'position.y': gcs['y']},
-        #          {'position.z': gcs['z']},
-        #          {'fov_range': gcs['fov_range']},
-        #          {'com_range': gcs['com_range']},
-        #          {'tf_frame': LaunchConfiguration('tf_frame')},
-        #          {'base_link_frame': f"{gcs['name']}_base_link"}, # 确保frame name唯一
-        #      ]
-        # )
-        # launch_actions.append(gcs_visualizer_node)
+        gcs_visualizer_node = Node(
+             package='gc_station', # 假设这是你的包名
+             executable='gcs_visualizer_node',
+             name='gcs_visualizer',
+             namespace=gcs['name'],
+             parameters=[
+                 {'use_sim_time': LaunchConfiguration('use_sim_time')},
+                 {'team': gcs['team']},
+                 {'position.x': gcs['x']},
+                 {'position.y': gcs['y']},
+                 {'position.z': gcs['z']},
+                 {'fov_range': gcs['fov_range']},
+                 {'com_range': gcs['com_range']},
+                 {'alpha': gcs['alpha']},
+                 {'tf_frame': LaunchConfiguration('tf_frame')},
+                 {'base_link_frame': f"{gcs['name']}_base_link"}, # 确保frame name唯一
+             ]
+        )
+        launch_actions.append(gcs_visualizer_node)
 
     # 4. Lanzar una única instancia de RViz configurada para todos los drones
     rviz_launcher = OpaqueFunction(

@@ -41,6 +41,8 @@ ros2 run fw_plane fw_visualizer_node --ros-args -p use_sim_time:=true
 
 ros2 launch scripts multi_fw.launch.py
 
+ros2 launch scripts swarm_combat_test.launch.py
+
 ros2 launch fw_plane single_fw_sim.launch.py
 
 

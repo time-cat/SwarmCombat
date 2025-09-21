@@ -16,15 +16,15 @@ from ament_index_python.packages import get_package_share_directory
 UAV_CONFIGS = [
     {'name': 'fw1',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': 0.0,    'yaw': 0.0},
     {'name': 'fw2',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -20.0,  'yaw': 0.0},
-    # {'name': 'fw3',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -40.0,  'yaw': 0.0},
-    # {'name': 'fw4',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -60.0,  'yaw': 0.0},
-    # {'name': 'fw5',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -80.0,  'yaw': 0.0},
-    # {'name': 'fw101', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': 0.0,    'yaw': 3.14},
-    # {'name': 'fw102', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -20.0,  'yaw': 3.14},
-    # {'name': 'fw103', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -40.0,  'yaw': 3.14},
-    # {'name': 'fw104', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': 0.0,  'yaw': 3.14},
-    # {'name': 'fw105', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': -20.0,  'yaw': 3.14},
-    # {'name': 'fw106', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': -40.0,  'yaw': 3.14},
+    {'name': 'fw3',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -40.0,  'yaw': 0.0},
+    {'name': 'fw4',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -60.0,  'yaw': 0.0},
+    {'name': 'fw5',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -80.0,  'yaw': 0.0},
+    {'name': 'fw101', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': 0.0,    'yaw': 3.14},
+    {'name': 'fw102', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -20.0,  'yaw': 3.14},
+    {'name': 'fw103', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -40.0,  'yaw': 3.14},
+    {'name': 'fw104', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': 0.0,  'yaw': 3.14},
+    {'name': 'fw105', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': -20.0,  'yaw': 3.14},
+    {'name': 'fw106', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': -40.0,  'yaw': 3.14},
     # Add more UAVs here as needed
 ]
 
@@ -132,7 +132,8 @@ def generate_launch_description():
                 'x': str(uav['x']),
                 'y': str(uav['y']),
                 'yaw': str(uav['yaw']),
-                'launch_visualizer': 'false' # This prevents it from launching its own RViz instance.
+                'launch_visualizer': 'false', # This prevents it from launching its own RViz instance.
+                # 'simulation_rate': str(200)
             }.items()
         )
         launch_actions.append(sim_launcher)

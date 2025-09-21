@@ -23,6 +23,7 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <geometry_msgs/msg/pose.hpp>
+#include <geometry_msgs/msg/point.hpp>
 
 #include "sim_msgs/msg/death_notice.hpp"
 
@@ -38,13 +39,15 @@ public:
         this->declare_parameter<double>("position.z", 0.0);
         this->declare_parameter<double>("fov_range", 10000.0);
         this->declare_parameter<double>("com_range", 12000.0);
+        this->declare_parameter<double>("alpha", 0.3);
         this->declare_parameter<std::string>("tf_frame", "odom");
         this->declare_parameter<std::string>("base_link_frame", "gcs/base_link");
-        this->declare_parameter<double>("visualization_frequency", 2.0); // 较低频率，因为是静态的
+        this->declare_parameter<double>("visualization_frequency", 3.0); // 较低频率，因为是静态的
 
         team_ = this->get_parameter("team").as_string();
         fov_range_ = this->get_parameter("fov_range").as_double();
         com_range_ = this->get_parameter("com_range").as_double();
+        alpha_ = this->get_parameter("alpha").as_double();
         tf_frame_ = this->get_parameter("tf_frame").as_string();
         base_link_frame_ = this->get_parameter("base_link_frame").as_string();
         double pub_freq = this->get_parameter("visualization_frequency").as_double();
@@ -147,31 +150,33 @@ private:
         t.transform.rotation = pose_enu_.orientation;
         tf_broadcaster_->sendTransform(t);
     }
-    
+
     void publish_range_marker(int id, double radius, const std::string& ns)
     {
         if (radius <= 0) return;
 
         visualization_msgs::msg::Marker marker;
-        marker.header.frame_id = base_link_frame_; // Marker附着在GCS自己的frame上
+        marker.header.frame_id = base_link_frame_;
         marker.header.stamp = this->get_clock()->now();
         marker.ns = ns;
         marker.id = id;
-        marker.type = visualization_msgs::msg::Marker::SPHERE;
+        // --- 核心改动 1: 将类型改为 TRIANGLE_LIST ---
+        marker.type = visualization_msgs::msg::Marker::TRIANGLE_LIST;
         marker.action = visualization_msgs::msg::Marker::ADD;
 
         // 位置相对于frame中心 (0,0,0)
         marker.pose.position.x = 0;
         marker.pose.position.y = 0;
-        marker.pose.position.z = 0;
+        marker.pose.position.z = 0; // 半球的基座位于z=0平面
         marker.pose.orientation.w = 1.0;
 
-        // scale的x,y,z代表球体在各轴上的直径
-        marker.scale.x = radius * 2.0;
-        marker.scale.y = radius * 2.0;
-        marker.scale.z = radius * 2.0;
+        // --- 核心改动 2: 对于TRIANGLE_LIST, scale应为1 ---
+        // 因为形状的大小由点的坐标直接定义
+        marker.scale.x = 1.0;
+        marker.scale.y = 1.0;
+        marker.scale.z = 1.0;
 
-        // 根据队伍和类型设置颜色和透明度
+        // 根据队伍和类型设置颜色和透明度 (逻辑保持不变)
         if (team_ == "red") {
             marker.color.r = (ns == "det_range") ? 1.0f : 0.8f;
             marker.color.g = 0.0f;
@@ -181,9 +186,53 @@ private:
             marker.color.g = (ns == "det_range") ? 0.5f : 0.3f;
             marker.color.b = 1.0f;
         }
-        marker.color.a = 0.15; // 设置透明度
+        marker.color.a = alpha_; // 设置透明度
 
-        // 设置marker的生命周期，确保它不会在两次发布之间消失
+        // --- 核心改动 3: 生成构成半球体表面的三角形网格 ---
+        marker.points.clear();
+        // resolution决定了半球的平滑度，值越高越平滑，但计算量越大
+        int resolution = 48; 
+
+        for (int i = 0; i < resolution / 2; ++i) { // 纬度方向 (从顶部到底部)
+            double lat1 = M_PI * i / resolution;
+            double lat2 = M_PI * (i + 1) / resolution;
+
+            for (int j = 0; j < resolution; ++j) { // 经度方向 (环绕一周)
+                double lon1 = 2 * M_PI * j / resolution;
+                double lon2 = 2 * M_PI * (j + 1) / resolution;
+
+                // 定义一个四边形的四个顶点
+                geometry_msgs::msg::Point p1, p2, p3, p4;
+
+                p1.x = radius * std::sin(lat1) * std::cos(lon1);
+                p1.y = radius * std::sin(lat1) * std::sin(lon1);
+                p1.z = radius * std::cos(lat1);
+
+                p2.x = radius * std::sin(lat1) * std::cos(lon2);
+                p2.y = radius * std::sin(lat1) * std::sin(lon2);
+                p2.z = radius * std::cos(lat1);
+
+                p3.x = radius * std::sin(lat2) * std::cos(lon2);
+                p3.y = radius * std::sin(lat2) * std::sin(lon2);
+                p3.z = radius * std::cos(lat2);
+                
+                p4.x = radius * std::sin(lat2) * std::cos(lon1);
+                p4.y = radius * std::sin(lat2) * std::sin(lon1);
+                p4.z = radius * std::cos(lat2);
+
+                // 将这个四边形分割成两个三角形并添加到点列表中
+                // 三角形 1
+                marker.points.push_back(p1);
+                marker.points.push_back(p2);
+                marker.points.push_back(p4);
+                // 三角形 2
+                marker.points.push_back(p2);
+                marker.points.push_back(p3);
+                marker.points.push_back(p4);
+            }
+        }
+
+        // 设置marker的生命周期
         marker.lifetime = rclcpp::Duration::from_seconds(0.6); 
 
         marker_pub_->publish(marker);
@@ -220,6 +269,7 @@ private:
     std::string team_;
     double fov_range_;
     double com_range_;
+    double alpha_;
     std::string tf_frame_;
     std::string base_link_frame_;
 
