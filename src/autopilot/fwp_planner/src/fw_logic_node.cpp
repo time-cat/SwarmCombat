@@ -21,10 +21,14 @@
 #include <vector>
 #include <cmath>
 #include <mutex>
+#include <stdexcept> // for std::runtime_error
 
 // ROS 2 Standard Messages
 #include <geometry_msgs/msg/point.hpp>
 #include <nav_msgs/msg/odometry.hpp>
+
+#include "fwp_planner/algorithms/base_algorithm.hpp"
+#include "fwp_planner/algorithms/apf_algorithm.hpp"
 
 // Assumed Custom Swarm Messages (converted to ROS 2)
 #include "fwp_planner/msg/dynamic_state.hpp"
@@ -43,22 +47,7 @@
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
-
-// Data structures to hold situational awareness information
-struct StoredEnemyInfo {
-    geometry_msgs::msg::Point position;
-    rclcpp::Time timestamp;
-};
-
-struct StoredTeammateInfo {
-    int target_id;
-    rclcpp::Time timestamp;
-};
-
-struct StoredBroadcastInfo {
-    fwp_planner::msg::DynamicState dynamic_state;
-    rclcpp::Time timestamp;
-};
+#include "fwp_planner/types.hpp"
 
 
 // The main logic node class
@@ -76,6 +65,7 @@ public:
         this->declare_parameter<double>("exp_range", 80.0);
         this->declare_parameter<double>("stale_data_timeout", 5.0); // seconds
         this->declare_parameter<double>("logic_rate", 20.0); // Hz
+        this->declare_parameter<std::string>("algorithm_type", "APF");
 
         id_ = this->get_parameter("id").as_int();
         team_ = this->get_parameter("team").as_string();
@@ -84,6 +74,16 @@ public:
         com_range_ = this->get_parameter("com_range").as_double();
         exp_range_ = this->get_parameter("exp_range").as_double();
         stale_data_timeout_ = this->get_parameter("stale_data_timeout").as_double();
+        algorithm_type_ = this->get_parameter("algorithm_type").as_string();
+        
+        RCLCPP_INFO(this->get_logger(), "Loading algorithm of type: %s", algorithm_type_.c_str());
+        if (algorithm_type_ == "APF") {
+            algorithm_ = std::make_unique<ApfAlgorithm>(this);
+        }
+        else {
+            RCLCPP_FATAL(this->get_logger(), "Unknown algorithm_type: '%s'. Shutting down.", algorithm_type_.c_str());
+            throw std::runtime_error("Invalid algorithm_type specified");   // 抛出异常或直接关闭节点
+        }
 
         RCLCPP_INFO(this->get_logger(), "Starting FwLogicNode for UAV ID %d on team '%s'", id_, team_.c_str());
 
@@ -153,15 +153,16 @@ private:
         // TODO:
         CleanStaleData();
         // 3. 决策：是否自爆或者决定打击目标
-        target_id_  = SelectTarget();
-        trigger_hit = DecideExplode();
+        target_id_ = algorithm_->select_target(dynamic_state_, known_enemies_, known_teammates_);
+        trigger_hit = algorithm_->decide_explode(target_id_, exp_range_, dynamic_state_, known_enemies_);
         // 4. 规划：规划飞行轨迹
-        sim_msgs::msg::FwControl ctrl_cmd = CalculateMotion();
+        sim_msgs::msg::FwControl ctrl_cmd = algorithm_->calculate_motion(target_id_, dynamic_state_, known_enemies_, teambroadcast_info_);
         // 5. 控制：发布控制指令（给内环控制）
         // TODO: 外环控制器
         control_pub_->publish(ctrl_cmd);
         // 6. 自身状态信息发布
         if(trigger_hit) {
+            RCLCPP_INFO(this->get_logger(), "UAV %d: Target %d is in blast radius!", id_, target_id_);
             is_alive_ = false;
             explosion_publish();
             RCLCPP_WARN(this->get_logger(), "UAV %d: BOOM! Shutting down logic loop.", id_);
@@ -367,55 +368,6 @@ private:
         clean_map(teambroadcast_info_);
     }
 
-    int SelectTarget()
-    {
-        double min_dist = 1e9;
-        int target_id = -1;
-        for(const auto& pair : known_enemies_) {
-            double dx = pair.second.position.x - dynamic_state_.posi_n;
-            double dy = pair.second.position.y - dynamic_state_.posi_e;
-            double dz = pair.second.position.z - dynamic_state_.posi_d;
-            double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
-            if (dist < min_dist) {
-                min_dist = dist;
-                target_id = pair.first;
-            }
-        }
-        return target_id;
-    }
-    
-    bool DecideExplode()
-    {
-        if (target_id_ != -1 && known_enemies_.count(target_id_)) {
-            const auto& target = known_enemies_.at(target_id_);
-            double dx = target.position.x - dynamic_state_.posi_n;
-            double dy = target.position.y - dynamic_state_.posi_e;
-            double dz = target.position.z - dynamic_state_.posi_d;
-            double dist = std::sqrt(dx*dx + dy*dy + dz*dz);
-            
-            if (dist < exp_range_) {
-                RCLCPP_INFO(this->get_logger(), "UAV %d: Target %d is in blast radius!", id_, target_id_);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    sim_msgs::msg::FwControl CalculateMotion()
-    {
-        // TODO: Implement advanced guidance law here
-        // For now, return a simple command to circle or fly straight.
-        sim_msgs::msg::FwControl cmd;
-        
-        // This simple logic just flies straight
-        cmd.desired_roll     = 0.0;
-        cmd.desired_pitch    = 0.0;
-        cmd.desired_yaw_rate = 0.0;
-        cmd.desired_airspeed = 20.0;
-
-        return cmd;
-    }
-
     // --- Publishing Functions ---
     void perceivedstate_publish()
     {
@@ -517,6 +469,8 @@ private:
     int id_;
     std::string team_;
     double fov_range_, fov_angle_, com_range_, exp_range_, stale_data_timeout_;
+    std::string algorithm_type_;
+    std::unique_ptr<BaseAlgorithm> algorithm_;
     
     bool is_alive_ = true;
     bool state_received_ = false;
@@ -540,7 +494,6 @@ private:
     rclcpp::Publisher<fwp_planner::msg::TeamBroadcast>::SharedPtr  teambroadcast_pub_;
     rclcpp::Publisher<fwp_planner::msg::TeamMulticast>::SharedPtr  teammulticast_pub_;
     
-
     rclcpp::Publisher<sim_msgs::msg::DeathNotice>::SharedPtr       deathnotice_pub_;
 
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr          odom_sub_;
@@ -548,7 +501,6 @@ private:
     rclcpp::Subscription<sim_msgs::msg::ExplosionReport>::SharedPtr   explosion_sub_;
     rclcpp::Subscription<fwp_planner::msg::TeamBroadcast>::SharedPtr  teambroadcast_sub_;
     rclcpp::Subscription<fwp_planner::msg::TeamMulticast>::SharedPtr  teammulticast_sub_;
-    
 
     rclcpp::TimerBase::SharedPtr logic_timer_;
 };

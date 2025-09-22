@@ -39,10 +39,18 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 
 
 # 3. 定义并编译可执行节点
-add_executable(fw_logic_node src/fw_logic_node.cpp)
+add_executable(fw_logic_node 
+  src/fw_logic_node.cpp
+  src/algorithms/apf_algorithm.cpp
+)
+
+# 告诉 fw_logic_node 目标，编译时要去 "include" 目录下查找头文件
+target_include_directories(fw_logic_node PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 # 链接依赖项到可执行文件
-# 这是最关键的一步，它告诉编译器在哪里找到所需的头文件和库
 ament_target_dependencies(fw_logic_node
   rclcpp
   geometry_msgs

@@ -1,0 +1,20 @@
+ros__parameters:
+  apf:
+    turn_rate_coeff: 1.2
+    prediction_time_factor: 1.8
+    
+    red:
+      du_weight: 1.0
+      dg_weight: 0.3
+      count_weight: 600.0
+      attraction_coeff_target: 1.5
+      repulsion_dist_teammate: 200.0
+      repulsion_coeff_teammate: 0.8
+      attraction_coeff_formation: 0.1
+    
+    blue:
+      attack_distance: 250.0
+      evade_distance: 350.0
+      attraction_coeff_gcs: 1.2
+      repulsion_dist_enemy: 550.0
+      repulsion_coeff_enemy: 1.5
