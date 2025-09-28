@@ -14,22 +14,22 @@ from ament_index_python.packages import get_package_share_directory
 # A centralized list to define all UAVs to be launched.
 # This makes it easy to add, remove, or modify UAVs and their initial poses.
 UAV_CONFIGS = [
-    {'name': 'fw1',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 60.0, 'x': 0.0,  'y': 0.0,    'yaw': 0.0},
-    # {'name': 'fw2',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -20.0,  'yaw': 0.0},
-    # {'name': 'fw3',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -40.0,  'yaw': 0.0},
-    {'name': 'fw4',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 60.0, 'x': 0.0,  'y': -60.0,  'yaw': 0.0},
-    # {'name': 'fw5',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 0.0,  'y': -80.0,  'yaw': 0.0},
-    {'name': 'fw101', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 140.0, 'x': 600.0, 'y': 0.0,    'yaw': 3.14},
-    # {'name': 'fw102', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -20.0,  'yaw': 3.14},
-    # {'name': 'fw103', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 600.0, 'y': -40.0,  'yaw': 3.14},
-    # {'name': 'fw104', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': 0.0,  'yaw': 3.14},
-    # {'name': 'fw105', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 700.0, 'y': -20.0,  'yaw': 3.14},
-    {'name': 'fw106', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 150.0, 'x': 700.0, 'y': -60.0,  'yaw': 3.14},
+    {'name': 'fw1',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 50.0, 'x': 0.0,  'y': 0.0, 'z': -20.0, 'yaw': 0.0},
+    {'name': 'fw2',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 50.0, 'x': 0.0,  'y': -20.0, 'z': -20.0, 'yaw': 0.0},
+    {'name': 'fw3',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 50.0, 'x': 0.0,  'y': -40.0, 'z': -20.0, 'yaw': 0.0},
+    {'name': 'fw4',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 50.0, 'x': 0.0,  'y': -60.0, 'z': -20.0, 'yaw': 0.0},
+    {'name': 'fw5',   'team': 'red',  'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 50.0, 'x': 0.0,  'y': -80.0, 'z': -20.0, 'yaw': 0.0},
+    {'name': 'fw101', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 1000.0, 'y': 0.0, 'z': -100.0, 'yaw': 3.14},
+    {'name': 'fw102', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 1000.0, 'y': -20.0, 'z': -100.0, 'yaw': 3.14},
+    {'name': 'fw103', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 1000.0, 'y': -40.0, 'z': -100.0, 'yaw': 3.14},
+    {'name': 'fw104', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 1200.0, 'y': 0.0, 'z': -100.0, 'yaw': 3.14},
+    {'name': 'fw105', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 1200.0, 'y': -20.0, 'z': -100.0, 'yaw': 3.14},
+    {'name': 'fw106', 'team': 'blue', 'fov_range': 2000.0, 'com_range': 2000.0, 'exp_range': 80.0, 'x': 1200.0, 'y': -60.0, 'z': -100.0, 'yaw': 3.14},
     # Add more UAVs here as needed
 ]
 
 GCS_CONFIGS = [
-    {'name': 'gcs_red',  'team': 'red',  'fov_range': 450.0, 'com_range': 550.0, 'x': 0.0, 'y': 0.0, 'z': 0.0, 'alpha': 0.2},
+    {'name': 'gcs_red',  'team': 'red',  'fov_range': 700.0, 'com_range': 800.0, 'x': 0.0, 'y': 0.0, 'z': 0.0, 'alpha': 0.2},
     # {'name': 'gcs_blue', 'team': 'blue', 'fov_range': 10000.0, 'com_range': 12000.0, 'x': 1100.0, 'y': -40.0, 'z': 0.0}
 ]
 
@@ -84,7 +84,7 @@ def generate_multi_rviz_config(context):
             },
             'Displays': [
                 # {'Name': 'Ground Plane', 'Class': 'rviz_default_plugins/Plane', 'Enabled': True, 'Color': '150; 150; 150; 255', 'Width': 2000, 'Height': 2000, 'Normal': {'X': 0, 'Y': 0, 'Z': 1}, 'Offset': 0, 'Reference Frame': '<Fixed Frame>'},
-                {'Name': 'Grid', 'Class': 'rviz_default_plugins/Grid', 'Enabled': True, 'Color': '180; 180; 184', 'Plane': 'XY', 'Cell Size': 20.0, 'Plane Cell Count': 100, 'Reference Frame': '<Fixed Frame>', 'Alpha': 1.0},
+                {'Name': 'Grid', 'Class': 'rviz_default_plugins/Grid', 'Enabled': True, 'Color': '180; 180; 184', 'Plane': 'XY', 'Cell Size': 40.0, 'Plane Cell Count': 100, 'Reference Frame': '<Fixed Frame>', 'Alpha': 1.0},
                 {'Name': 'WorldOrigin', 'Class': 'rviz_default_plugins/Axes', 'Enabled': True, 'Length': 7.0, 'Radius': 0.5},
                 {'Name': 'TF', 'Class': 'rviz_default_plugins/TF', 'Enabled': True, 'Show Names': True},
                 *all_uav_displays
@@ -128,6 +128,12 @@ def generate_launch_description():
     """
     fw_plane_pkg_dir = get_package_share_directory('fw_plane')
 
+    config_file = os.path.join(
+        get_package_share_directory('fwp_planner'),
+        'config',
+        'apf_params.yaml'
+    )
+
     # --- Argumentos Globales ---
     use_sim_time_arg = DeclareLaunchArgument('use_sim_time', default_value='true')
     launch_rviz_arg = DeclareLaunchArgument('launch_rviz', default_value='true')
@@ -148,6 +154,7 @@ def generate_launch_description():
                 'namespace': uav['name'],
                 'x': str(uav['x']),
                 'y': str(uav['y']),
+                'z': str(uav['z']),
                 'yaw': str(uav['yaw']),
                 'launch_visualizer': 'false' # This prevents it from launching its own RViz instance.
             }.items()
@@ -155,72 +162,76 @@ def generate_launch_description():
         launch_actions.append(sim_launcher)
         
         logic_node = Node(
-             package='fwp_planner',
-             executable='fw_logic_node',
-             name='fw_logic',
-             namespace=uav['name'],
-             parameters=[
-                 {'use_sim_time': LaunchConfiguration('use_sim_time')},
-                 {'id': int(re.search(r'\d+', uav['name']).group(0)) },
-                 {'team': uav['team']},
-                 {'fov_range': uav['fov_range']},
-                 {'com_range': uav['com_range']},
-                 {'exp_range': uav['exp_range']},
-             ]
+            package='fwp_planner',
+            executable='fw_logic_node',
+            name='fw_logic',
+            namespace=uav['name'],
+            parameters=[
+                config_file,
+                {'use_sim_time': LaunchConfiguration('use_sim_time')},
+                {'id': int(re.search(r'\d+', uav['name']).group(0)) },
+                {'team': uav['team']},
+                {'fov_range': uav['fov_range']},
+                {'com_range': uav['com_range']},
+                {'exp_range': uav['exp_range']},
+                {'logic_rate': 50.0},
+                {'algorithm_type': 'APF'}
+            ]
         )
         launch_actions.append(logic_node)
 
         visualizer_node = Node(
-             package='fw_plane',
-             executable='fw_visualizer_node',
-             name='fw_visualizer',
-             namespace=uav['name'],
-             parameters=[
-                 {'use_sim_time': LaunchConfiguration('use_sim_time')},
-                 {'tf_frame': LaunchConfiguration('tf_frame')},
-                 {'base_link_frame': [LaunchConfiguration('namespace'), '/', 'base_link']},
-                 {'uav_name': uav['name']},
-             ]
+            package='fw_plane',
+            executable='fw_visualizer_node',
+            name='fw_visualizer',
+            namespace=uav['name'],
+            parameters=[
+                {'use_sim_time': LaunchConfiguration('use_sim_time')},
+                {'tf_frame': LaunchConfiguration('tf_frame')},
+                {'base_link_frame': [LaunchConfiguration('namespace'), '/', 'base_link']},
+                {'uav_name': uav['name']},
+            ]
         )
         launch_actions.append(visualizer_node)
 
     # --- 新增: 循环启动所有地面站 ---
     for gcs in GCS_CONFIGS:
         gcs_logic_node = Node(
-             package='gcs_planner', # 假设逻辑节点也在fwp_planner包
-             executable='gcs_logic_node',
-             name='gcs_logic',
-             namespace=gcs['name'],
-             parameters=[
-                 {'use_sim_time': LaunchConfiguration('use_sim_time')},
-                 {'id': 0}, # ID 始终为 0
-                 {'team': gcs['team']},
-                 {'position.x': gcs['x']},
-                 {'position.y': gcs['y']},
-                 {'position.z': gcs['z']},
-                 {'fov_range': gcs['fov_range']},
-                 {'com_range': gcs['com_range']},
-             ]
+            package='gcs_planner', # 假设逻辑节点也在fwp_planner包
+            executable='gcs_logic_node',
+            name='gcs_logic',
+            namespace=gcs['name'],
+            parameters=[
+                {'use_sim_time': LaunchConfiguration('use_sim_time')},
+                {'id': 0}, # ID 始终为 0
+                {'team': gcs['team']},
+                {'position.x': gcs['x']},
+                {'position.y': gcs['y']},
+                {'position.z': gcs['z']},
+                {'fov_range': gcs['fov_range']},
+                {'com_range': gcs['com_range']},
+                {'logic_rate': 50.0},
+            ]
         )
         launch_actions.append(gcs_logic_node)
 
         gcs_visualizer_node = Node(
-             package='gc_station', # 假设这是你的包名
-             executable='gcs_visualizer_node',
-             name='gcs_visualizer',
-             namespace=gcs['name'],
-             parameters=[
-                 {'use_sim_time': LaunchConfiguration('use_sim_time')},
-                 {'team': gcs['team']},
-                 {'position.x': gcs['x']},
-                 {'position.y': gcs['y']},
-                 {'position.z': gcs['z']},
-                 {'fov_range': gcs['fov_range']},
-                 {'com_range': gcs['com_range']},
-                 {'alpha': gcs['alpha']},
-                 {'tf_frame': LaunchConfiguration('tf_frame')},
-                 {'base_link_frame': f"{gcs['name']}_base_link"}, # 确保frame name唯一
-             ]
+            package='gc_station', # 假设这是你的包名
+            executable='gcs_visualizer_node',
+            name='gcs_visualizer',
+            namespace=gcs['name'],
+            parameters=[
+                {'use_sim_time': LaunchConfiguration('use_sim_time')},
+                {'team': gcs['team']},
+                {'position.x': gcs['x']},
+                {'position.y': gcs['y']},
+                {'position.z': gcs['z']},
+                {'fov_range': gcs['fov_range']},
+                {'com_range': gcs['com_range']},
+                {'alpha': gcs['alpha']},
+                {'tf_frame': LaunchConfiguration('tf_frame')},
+                {'base_link_frame': f"{gcs['name']}_base_link"}, # 确保frame name唯一
+            ]
         )
         launch_actions.append(gcs_visualizer_node)
 

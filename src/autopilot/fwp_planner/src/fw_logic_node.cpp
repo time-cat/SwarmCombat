@@ -29,6 +29,7 @@
 
 #include "fwp_planner/algorithms/base_algorithm.hpp"
 #include "fwp_planner/algorithms/apf_algorithm.hpp"
+#include "fwp_planner/algorithms/guidance_algorithm.hpp"
 
 // Assumed Custom Swarm Messages (converted to ROS 2)
 #include "fwp_planner/msg/dynamic_state.hpp"
@@ -79,6 +80,9 @@ public:
         RCLCPP_INFO(this->get_logger(), "Loading algorithm of type: %s", algorithm_type_.c_str());
         if (algorithm_type_ == "APF") {
             algorithm_ = std::make_unique<ApfAlgorithm>(this);
+        }
+        else if (algorithm_type_ == "Guidance") {
+            algorithm_ = std::make_unique<GuidanceAlgorithm>(this);
         }
         else {
             RCLCPP_FATAL(this->get_logger(), "Unknown algorithm_type: '%s'. Shutting down.", algorithm_type_.c_str());

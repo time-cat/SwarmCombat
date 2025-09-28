@@ -42,6 +42,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 add_executable(fw_logic_node 
   src/fw_logic_node.cpp
   src/algorithms/apf_algorithm.cpp
+  src/algorithms/guidance_algorithm.cpp
 )
 
 # 告诉 fw_logic_node 目标，编译时要去 "include" 目录下查找头文件

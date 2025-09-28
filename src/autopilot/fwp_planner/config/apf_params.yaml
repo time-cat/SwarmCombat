@@ -15,6 +15,6 @@ ros__parameters:
     blue:
       attack_distance: 250.0
       evade_distance: 350.0
-      attraction_coeff_gcs: 1.2
-      repulsion_dist_enemy: 550.0
+      attraction_coeff_gcs: 5.0
+      repulsion_dist_enemy: 400.0
       repulsion_coeff_enemy: 1.5

@@ -31,7 +31,6 @@
 #include "sim_msgs/msg/death_notice.hpp"
 
 
-// 为了满足“无头文件”的要求，我们将类定义直接放在 .cpp 文件中
 class FwVisualizerNode : public rclcpp::Node
 {
 public:
@@ -91,53 +90,6 @@ public:
     }
 
 private:
-
-    /**
-     * @brief Transforms a pose from NED (simulation) to ENU (ROS) coordinates.
-     * @param pose_ned The input pose in North-East-Down frame.
-     * @param pose_enu The output pose in East-North-Up frame.
-     */
-    void transform_pose_ned_to_enu(const geometry_msgs::msg::Pose& pose_ned, geometry_msgs::msg::Pose& pose_enu)
-    {
-        // 1. Transform Position (NED -> ENU)
-        // ROS_X (East)  = Sim_Y (East)
-        // ROS_Y (North) = Sim_X (North)
-        // ROS_Z (Up)    = -Sim_Z (Down)
-        pose_enu.position.x = pose_ned.position.y;
-        pose_enu.position.y = pose_ned.position.x;
-        pose_enu.position.z = -pose_ned.position.z;
-
-        // 2. 转换姿态 (核心部分)
-        // 从 geometry_msgs::msg::Quaternion 转换到 tf2::Quaternion 以便进行数学运算
-        tf2::Quaternion q_ned_frd;
-        tf2::fromMsg(pose_ned.orientation, q_ned_frd);
-
-        // 定义一个固定的旋转，用于将NED世界系转换为ENU世界系
-        // 该旋转等效于：首先绕原始Z轴(Down)偏航+90度，然后绕新的X轴(East)滚转+180度
-        tf2::Quaternion q_enu_from_ned;
-        q_enu_from_ned.setRPY(M_PI, 0.0, M_PI_2);
-
-        // 定义一个固定的旋转，用于将FRD机体约定转换为ROS常用的FLU机体约定
-        // 该旋转等效于绕机体的X轴(Forward)滚转180度
-        tf2::Quaternion q_flu_from_frd;
-        q_flu_from_frd.setRPY(M_PI, 0.0, 0.0);
-
-        // --- 应用组合变换 ---
-        // 最终的姿态是在ENU坐标系下，以FLU为约定的姿态
-        // 计算方法：首先将NED下的姿态转换到ENU系下，然后应用机体约定变换
-        // q_C' = (q_B_from_A * q_C) * q_C'_from_C
-        // 其中 C' 是FLU, C 是FRD, B 是ENU, A 是NED
-        // 但由于FLU和FRD的定义是相对于机体自身的，可以直接后乘
-        
-        tf2::Quaternion q_enu_flu = q_enu_from_ned * q_ned_frd * q_flu_from_frd;
-
-
-        // 归一化四元数以保证其有效性
-        q_enu_flu.normalize();
-
-        // 将计算结果转换回 geometry_msgs::msg::Quaternion 并赋值
-        pose_enu.orientation = tf2::toMsg(q_enu_flu);
-    }
 
     void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
     {
@@ -219,16 +171,13 @@ private:
 
         t.header.stamp = last_odom_msg_.header.stamp;
         t.header.frame_id = tf_frame_;
-        t.child_frame_id = base_link_frame_;
+        t.child_frame_id  = base_link_frame_;
 
-        geometry_msgs::msg::Pose transformed_pose;
-        transform_pose_ned_to_enu(last_odom_msg_.pose.pose, transformed_pose);
-        
         // 从最新的里程计消息中获取位姿
-        t.transform.rotation      = transformed_pose.orientation;
-        t.transform.translation.x = transformed_pose.position.x;
-        t.transform.translation.y = transformed_pose.position.y;
-        t.transform.translation.z = transformed_pose.position.z;
+        t.transform.rotation    = last_odom_msg_.pose.pose.orientation;
+        t.transform.translation.x = last_odom_msg_.pose.pose.position.x;
+        t.transform.translation.y = last_odom_msg_.pose.pose.position.y;
+        t.transform.translation.z = last_odom_msg_.pose.pose.position.z;
         
         tf_broadcaster_->sendTransform(t);
     }
@@ -264,7 +213,7 @@ private:
         // 将当前位姿添加到历史轨迹队列
         geometry_msgs::msg::PoseStamped current_pose;
         current_pose.header = last_odom_msg_.header;
-        transform_pose_ned_to_enu(last_odom_msg_.pose.pose, current_pose.pose);
+        current_pose.pose   = last_odom_msg_.pose.pose;
         history_path_.push_back(current_pose);
 
         // 如果队列太长，从队首移除旧的位姿

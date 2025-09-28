@@ -23,12 +23,22 @@ find_package(geometry_msgs REQUIRED)       # 为可视化节点添加
 find_package(Eigen3 3.3 REQUIRED NO_MODULE) # 依赖 Eigen
 find_package(Boost REQUIRED COMPONENTS system) # 依赖 Boost (for odeint)
 
-# --- 添加可执行文件 ---
-add_executable(fw_sim_node 
-    src/fw_sim_node.cpp
-    src/fw_dynamics.cpp # 需要同时编译动力学源文件
+# --- 添加库文件 ---
+set(BHDYNAMIC_LIB ${CMAKE_CURRENT_SOURCE_DIR}/include/BHDynamic/libBHDynamic.so)
+install(FILES ${BHDYNAMIC_LIB}
+    DESTINATION lib/${PROJECT_NAME}
 )
 
+# add_library(px4_lib_fw
+#     include/px4_lib/drivers/drv_hrt.cpp
+#     include/px4_lib/hysteresis/hysteresis.cpp
+#     include/px4_lib/geo/geo.cpp
+#     include/px4_lib/parameters/px4_parameters.cpp
+#     include/px4_lib/uORB/uORB_sim.cpp
+# )
+
+# --- 添加可执行文件 ---
+add_executable(fw_sim_node src/fw_sim_node.cpp)
 add_executable(fw_visualizer_node src/fw_visualizer_node.cpp)
 
 # --- 链接依赖 ---
@@ -38,6 +48,8 @@ ament_target_dependencies(fw_sim_node
     sensor_msgs
     std_msgs
     sim_msgs
+    tf2_ros
+    tf2_geometry_msgs
 )
 
 ament_target_dependencies(fw_visualizer_node
@@ -52,15 +64,24 @@ ament_target_dependencies(fw_visualizer_node
     geometry_msgs
 )
 
-# 链接 Eigen 和 Boost
+# 链接 Eigen 和 Boost  px4_lib_fw BHDynamic
 target_include_directories(fw_sim_node PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     ${Eigen3_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
 )
-target_link_libraries(fw_sim_node 
+target_link_libraries(fw_sim_node
+    ${BHDYNAMIC_LIB}
     Eigen3::Eigen
     Boost::system
+)
+
+# 链接 Eigen 和 Boost  px4_lib_fw BHDynamic
+target_include_directories(fw_visualizer_node PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+target_link_libraries(fw_visualizer_node
+    ${BHDYNAMIC_LIB}
 )
 
 # --- 安装 ---
@@ -70,7 +91,7 @@ install(TARGETS
     DESTINATION lib/${PROJECT_NAME}
 )
 
-# 添加 include 目录，以便其他包可以找到 fw_dynamics.hpp
+# 添加 include 目录
 install(
     DIRECTORY include/
     DESTINATION include

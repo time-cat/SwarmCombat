@@ -92,8 +92,7 @@ int ApfAlgorithm::select_target(
 }
 
 bool ApfAlgorithm::decide_explode(
-    int target_id,
-    double exp_range,
+    int target_id, double exp_range,
     const fwp_planner::msg::DynamicState& self_state,
     const std::map<int, StoredEnemyInfo>& known_enemies)
 {
@@ -118,6 +117,7 @@ bool ApfAlgorithm::decide_explode(
     }
 }
 
+
 sim_msgs::msg::FwControl ApfAlgorithm::calculate_motion(
     int target_id,
     const fwp_planner::msg::DynamicState& self_state,
@@ -133,48 +133,87 @@ sim_msgs::msg::FwControl ApfAlgorithm::calculate_motion(
     }
 
     sim_msgs::msg::FwControl cmd;
-    cmd.desired_airspeed = 25.0; // 设置一个基准速度
-    cmd.desired_roll = 0.0;
-    cmd.desired_pitch = 0.0;
     
-    // --- 通用部分：将合力转换为期望偏航角速度 ---
-    double force_magnitude_2d = total_force.length();
-    if (force_magnitude_2d < 1e-6) {
-        cmd.desired_yaw_rate = 0.0;
+    // --- 真正的3D制导律 ---
+    double force_magnitude = total_force.length();
+    if (force_magnitude < 1e-6) {
+        // 如果没有合力，保持平飞
+        cmd.desired_roll = 0.0;
+        cmd.desired_pitch = 0.0;
+        cmd.desired_vel = 20.0; // 巡航速度
         return cmd;
     }
 
-    // 从四元数获取当前偏航角
-    tf2::Quaternion q(self_state.orient_x, self_state.orient_y, self_state.orient_z, self_state.orient_w);
-    double roll, pitch, yaw;
-    tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+    // 1. 计算当前的三维朝向向量 (Body X-axis in World Frame)
+    tf2::Quaternion current_attitude(self_state.orient_x, self_state.orient_y, self_state.orient_z, self_state.orient_w);
+    tf2::Vector3 current_heading_3d = tf2::quatRotate(current_attitude, tf2::Vector3(1, 0, 0));
 
-    // 计算期望航向 (只考虑XY平面)
-    double desired_heading = std::atan2(total_force.y(), total_force.x());
+    // 2. 确定期望的三维方向向量
+    tf2::Vector3 desired_direction_vec = total_force.normalized();
+
+    // 3. 计算从当前朝向到期望方向的旋转轴（误差向量），位于世界坐标系
+    tf2::Vector3 rotation_axis_world = current_heading_3d.cross(desired_direction_vec);
+
+    // 4. 将旋转轴（误差向量）转换到机体坐标系
+    // 我们需要用当前姿态的逆，将世界坐标系向量转到机体坐标系
+    tf2::Vector3 rotation_axis_body = tf2::quatRotate(current_attitude.inverse(), rotation_axis_world);
+
+    // rotation_axis_body 的分量现在代表了机体的角速度误差
+    // body.y -> 俯仰误差 (正值表示需要向上俯仰)
+    // body.z -> 偏航误差 (正值表示需要向左偏航)
+
+    // 5. 从机体误差生成滚转和俯仰指令
+    // 这些增益系数可以做成ROS参数以便调试
+    const double pitch_gain = 2.5;
+    const double roll_gain = 4.0; // 通常滚转增益比俯仰增益大
     
-    // 计算角度误差 ([-PI, PI])
-    double angle_error = std::atan2(std::sin(desired_heading - yaw), std::cos(desired_heading - yaw));
+    // 俯仰指令：直接与机体Y轴误差成正比
+    cmd.desired_pitch = pitch_gain * rotation_axis_body.y();
 
-    // P控制器计算期望角速度
-    cmd.desired_yaw_rate = params_.turn_rate_coeff * angle_error;
+    // 滚转指令：与机体Z轴误差成正比。
+    // 注意符号：机体Z轴正方向向下，一个正的Z轴误差（向左偏航）需要一个正的滚转角（右翼向下倾斜）。
+    cmd.desired_roll = roll_gain * rotation_axis_body.z();
 
-    // 根据朝向调整速度（简单逻辑）
-    tf2::Vector3 heading_vector(std::cos(yaw), std::sin(yaw), 0);
-    tf2::Vector3 force_direction_vector = total_force.normalized();
-    double alignment = heading_vector.dot(force_direction_vector);
+    // 对指令进行限幅，防止过激操作
+    const double max_roll = 0.785; // 45 degrees
+    const double max_pitch = 0.523; // 30 degrees
+    cmd.desired_roll = std::max(-max_roll, std::min(max_roll, cmd.desired_roll));
+    cmd.desired_pitch = std::max(-max_pitch, std::min(max_pitch, cmd.desired_pitch));
 
-    // 仅当大致对准方向时才加速
-    if (alignment > 0.5) { // cos(60deg) = 0.5
-        cmd.desired_airspeed = 35.0; // 最大速度
-    }
+    // --- 速度控制逻辑 (使用我们之前讨论过的方案A) ---
+    // 计算当前朝向和期望方向的点积（对准程度）
+    double alignment = current_heading_3d.dot(desired_direction_vec);
+    
+    const double min_vel = 20.0;
+    const double max_vel = 35.0;
+    double speed_factor = std::max(0.0, alignment);
+    cmd.desired_vel = min_vel + (max_vel - min_vel) * speed_factor;
+
+    // === DEBUG PRINT: 3D Guidance Information ===
+    // RCLCPP_INFO(node_->get_logger(), 
+    //     "--- [3D Guidance] ID: %ld ---", node_->get_parameter("id").as_int());
+    // RCLCPP_INFO(node_->get_logger(), 
+    //     "  Desired_Dir  -> [x: %.2f, y: %.2f, z: %.2f]", 
+    //     desired_direction_vec.x(), desired_direction_vec.y(), desired_direction_vec.z());
+    // RCLCPP_INFO(node_->get_logger(), 
+    //     "  Body_Err_Vec -> Pitch_Err(y): %.2f | Yaw_Err(z): %.2f", 
+    //     rotation_axis_body.y(), rotation_axis_body.z());
+    // RCLCPP_INFO(node_->get_logger(), 
+    //     "  Att_Cmd -> Roll: %.2f rad | Pitch: %.2f rad", 
+    //     cmd.desired_roll, cmd.desired_pitch);
+    // RCLCPP_INFO(node_->get_logger(), 
+    //     "  Speed_Cmd -> Alignment: %.2f | Speed: %.2f m/s",
+    //     alignment, cmd.desired_vel);
 
     // 记录本帧敌方信息，用于下一帧预测
     last_enemy_info_ = known_enemies;
-    // 注意：需要一个可靠的时间源来计算dt，这里简化处理
     
+    cmd.desired_roll  = 1.2;  // TEST
+    cmd.desired_pitch = 0.2;
+    cmd.desired_vel   = 22;
+
     return cmd;
 }
-
 
 int ApfAlgorithm::_find_best_target_weighted(
     const tf2::Vector3& self_pos,
@@ -279,23 +318,41 @@ tf2::Vector3 ApfAlgorithm::_calculate_blue_force(
         }
     }
     
+    // === DEBUG PRINT 1: UAV state and key distances ===
+    RCLCPP_INFO(node_->get_logger(), 
+        "--- [Blue AI] ID: %ld | State: %s | Dist_to_GCS: %.2f m ---",
+        node_->get_parameter("id").as_int(), current_state.c_str(), dist_to_gcs);
+
     // 2. --- 根据状态计算合力 ---
+    tf2::Vector3 force_att_gcs(0,0,0);
+    tf2::Vector3 force_rep_enemy(0,0,0);
     if (current_state == "ATTACK") {
         tf2::Vector3 vec_gcs = GCS_POSITION_ - self_pos;
         if (vec_gcs.length() > 0) {
-            total_force += params_.blue_attraction_coeff_gcs * vec_gcs.normalized();
+            force_att_gcs = params_.blue_attraction_coeff_gcs * vec_gcs.normalized();
         }
+        total_force += force_att_gcs;
     } else if (current_state == "EVADE") {
-        total_force += _calculate_enemy_repulsion(self_pos, known_enemies);
+        force_rep_enemy = _calculate_enemy_repulsion(self_pos, known_enemies);
+        total_force += force_rep_enemy;
     } else { // CRUISE
         // GCS引力
         tf2::Vector3 vec_gcs = GCS_POSITION_ - self_pos;
         if (vec_gcs.length() > 0) {
-            total_force += params_.blue_attraction_coeff_gcs * vec_gcs.normalized();
+            force_att_gcs = params_.blue_attraction_coeff_gcs * vec_gcs.normalized();
         }
         // 敌人斥力
-        total_force += _calculate_enemy_repulsion(self_pos, known_enemies);
+        force_rep_enemy = _calculate_enemy_repulsion(self_pos, known_enemies);
+        total_force += force_att_gcs + force_rep_enemy;
     }
+
+    // === DEBUG PRINT 2: Magnitudes of component forces and the final resultant force ===
+    RCLCPP_INFO(node_->get_logger(), 
+        "  Forces -> GCS_Attraction_Mag: %.2f | Enemy_Repulsion_Mag: %.2f",
+        force_att_gcs.length(), force_rep_enemy.length());
+    RCLCPP_INFO(node_->get_logger(), 
+        "  Total_Force -> [x: %.2f, y: %.2f, z: %.2f], Mag: %.2f",
+        total_force.x(), total_force.y(), total_force.z(), total_force.length());
 
     return total_force;
 }

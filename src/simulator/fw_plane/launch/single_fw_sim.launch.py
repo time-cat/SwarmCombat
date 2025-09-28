@@ -27,7 +27,7 @@ def generate_launch_description():
     roll_arg = DeclareLaunchArgument('roll', default_value='0.0', description='Initial roll angle (rad)')
     pitch_arg = DeclareLaunchArgument('pitch', default_value='0.0', description='Initial pitch angle (rad)')
     yaw_arg = DeclareLaunchArgument('yaw', default_value='0.0', description='Initial yaw angle (rad)')
-    airspeed_arg = DeclareLaunchArgument('airspeed', default_value='20.0', description='Initial airspeed (m/s)')
+    airspeed_arg = DeclareLaunchArgument('airspeed', default_value='10.0', description='Initial airspeed (m/s)')
     simulation_rate_arg = DeclareLaunchArgument('simulation_rate', default_value='200.0', description='Physics simulation frequency (Hz)')
     gps_lat_arg = DeclareLaunchArgument('gps_origin_lat', default_value='47.397742', description='GPS origin latitude')
     gps_lon_arg = DeclareLaunchArgument('gps_origin_lon', default_value='8.545594', description='GPS origin longitude')

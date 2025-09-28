@@ -1,0 +1,21 @@
+ros__parameters:
+  guidance:
+    # Controller gains for trajectory tracking
+    trajectory_lookahead_time: 0.1  # [s] How far ahead on the trajectory the controller looks
+    feedback_pos_gain: 4.0          # [Kp] Proportional gain for position error
+    feedback_vel_gain: 3.0          # [Kd] Derivative gain for velocity error
+
+    # Red Team (Interceptor) Planner Parameters
+    red_prediction_time: 2.5        # [s] How far to predict the enemy's future position
+    red_apn_gain: 4.0               # [unitless] Gain for Augmented Proportional Navigation
+
+    # Blue Team (Penetrator) Planner Parameters
+    blue_replanning_horizon: 5.0    # [s] Not directly used in simplified version, but for concept
+    blue_repulsion_dist_enemy: 450.0  # [m] Distance at which enemy repulsion starts
+    blue_repulsion_coeff_enemy: 2.0   # [gain] Strength of the enemy repulsion
+    blue_smoothness_weight: 0.5     # [gain] Weight for trajectory smoothness (conceptual)
+    blue_goal_weight: 1.5           # [gain] Strength of attraction to the goal
+
+    # Attitude generation gains (converts acceleration to roll/pitch)
+    pitch_gain: 2.5
+    roll_gain: 4.0

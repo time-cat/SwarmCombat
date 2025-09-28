@@ -43,6 +43,8 @@ ros2 launch scripts multi_fw.launch.py
 
 ros2 launch scripts swarm_combat_test.launch.py
 
+ros2 launch scripts swarm_combat_test.launch.py 2>&1 | tee swarm_combat_test.log
+
 ros2 launch fw_plane single_fw_sim.launch.py
 
 
